@@ -33,6 +33,14 @@ build/
 *.so
 *.dylib
 
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.flv
+
 # Environment files
 .env
 .env.local
