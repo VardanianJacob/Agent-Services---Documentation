@@ -1,0 +1,10 @@
+{
+  "plantuml": {
+    "server": "http://localhost:8080",
+    "render": "PlantUMLServer",
+    "previewAutoUpdate": true,
+    "exportFormat": "png",
+    "java": "/opt/homebrew/bin/java",
+    "jar": "/opt/homebrew/Cellar/plantuml/1.2025.8/libexec/plantuml.jar"
+  }
+}

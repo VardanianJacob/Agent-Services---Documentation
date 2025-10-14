@@ -1,0 +1,157 @@
+@startuml
+title Agent Services - Target Process (To-Be)\nPLATEAU Integration: Core + Agent Services + Licensing + Audit
+
+skinparam dpi 150
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  RoundCorner 20
+}
+skinparam note {
+  BackgroundColor #E8F5E8
+  BorderColor #4CAF50
+}
+skinparam partitionBorderColor #666666
+skinparam partitionBackgroundColor #F9F9F9
+skinparam shadowing false
+
+start
+
+partition "Marketing / General Agent" {
+  :Fill NEW ACCOUNT SETUP (fillable PDF)\nname, TIN, branches, loan platform,\nproducts, commissions, retro/reinsurance,\nterms/limits/rates;
+  :Submit to Agent Services;
+}
+
+partition "PLATEAU System" {
+  :Terry logs into PLATEAU\n(Active Directory authentication);
+  :Navigate to Agent Services module;
+  note right
+  INTEGRATION POINT #1
+  PLATEAU → Agent Services Module
+  • Shared authentication
+  • Unified navigation
+  • Consistent UI/UX
+  end note
+}
+
+partition "Agent Services Module" {
+  :Intake & review Setup Form\n(web interface);
+  :Verify commissions vs General Agent Agreement;
+}
+
+partition "PLATEAU System" {
+  if ("Approve new account?") then (Yes)
+    :Senior Officer sign-off via PLATEAU interface;
+    note right
+    INTEGRATION POINT #2
+    PLATEAU Workflow → Agent Services
+    • Shared approval workflow
+    • Status synchronization
+    end note
+  else (No)
+    :Return to Agent Services with comments;
+  endif
+}
+
+partition "Agent Services Module" {
+  :Prepare Master Policies (state/product folders; fillable PDFs);
+  :Prepare Producer Agreement (state/company variants);
+  :Email agreements for signature; receive signed docs;
+  :Create Agent in Agent Services → EntityMaster\n(EntityType=Agent; mailing/physical/claims addresses;\nACH flag; Licensing flag; TIN; DAT%; Licensing contact);\nSet Status = PENDING;
+  note right
+  AUTOMATION #1 — Agent Services Web Interface
+  • No more manual Excel tracking
+  • Automatic status updates
+  • Real-time data entry
+  • C# automated operations
+  end note
+}
+
+partition "PLATEAU System" {
+  :Jessica accesses PLATEAU Licensing module;
+  note right
+  INTEGRATION POINT #3
+  PLATEAU Licensing ↔ Agent Services
+  • Shared agent data
+  • Integrated appointment management
+  • Cross-module data synchronization
+  end note
+}
+
+partition "Licensing Module" {
+  :Maintain appointments in integrated system;
+  :Automated monthly letters: new/terminated;
+  :Automated annual letters (Jan): roster cleanup\nwith email validation and delivery tracking;
+  note right
+  AUTOMATION #2 — Licensing Integration
+  • Automated letter generation
+  • Email validation and tracking
+  • Reduced manual printing/mailing
+  end note
+}
+
+partition "Loan Platform Provider" {
+  :Receive worksheet + release;
+  :Enable forms/rates on platform;
+}
+
+partition "Agent Services Module" {
+  :Wait for FIRST MONTHLY REPORT (arrears; 3-5 day rescission);
+  if ("First report received?") then (Yes)
+    :Complete Agent Setup via Agent Services interface:\n- AgentSetupDirect (plans) «NEVER DELETE»\n- AgentSetupMasterCredit (commission, reins, risk, term, rates)\n- AgentSetupValuesCredit (durations 0-100 via Table_Num)\n- Bulk operations for plan copying;
+    note right
+    AUTOMATION #3 — Agent Services Hierarchical Navigation
+    • Drill-down interface: EntityMaster → Direct → MasterCredit → ValuesCredit
+    • Bulk operations for plan copying
+    • Automated relationship management
+    • C# automated table operations
+    end note
+  else (No)
+    :Remain PENDING (no plan tables configured);
+  endif
+}
+
+partition "Operations & Claims" {
+  :Process business under configured plans;
+}
+
+partition "Agent Services Module" {
+  if ("Commission mismatch in first report?") then (Yes)
+    :Review originals via Agent Services interface;
+    :Correct contracts; re-send for signatures;
+    :Track resolution in audit log;
+  else (No)
+    :Proceed;
+  endif
+}
+
+partition "PLATEAU System" {
+  :All changes automatically logged\nat EntityMaster level;
+  :Audit trail available for compliance;
+  :Status notifications and alerts;
+  note right
+  INTEGRATION POINT #4
+  PLATEAU Audit ↔ Agent Services
+  • Centralized logging system
+  • Cross-module audit trails
+  • Unified notification system
+  end note
+}
+
+partition "Agent Services Module" {
+  note right
+  AUTOMATION #4 — Agent Services Audit & Notifications
+  • Automatic change tracking
+  • Compliance-ready audit trails
+  • Status alerts and notifications
+  • C# automated logging
+  end note
+}
+
+stop
+
+@enduml

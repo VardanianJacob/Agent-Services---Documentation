@@ -1,0 +1,88 @@
+@startuml
+title Agent Services - System Integration Sequence\nPLATEAU ↔ Agent Services Data Flow
+
+skinparam dpi 150
+skinparam sequence {
+  ArrowColor #1976D2
+  ActorBorderColor #1976D2
+  LifeLineBorderColor #1976D2
+  LifeLineBackgroundColor #E8F4FD
+  ParticipantBorderColor #4CAF50
+  ParticipantBackgroundColor #E8F5E8
+  ParticipantFontColor #2E7D32
+  ActorBackgroundColor #FFF3E0
+  ActorFontColor #E65100
+}
+
+actor "Terry\n(Operations)" as Terry
+participant "PLATEAU Core" as Plateau
+participant "Agent Services\nModule" as AgentServices
+participant "Licensing\nModule" as Licensing
+participant "Audit & Logging" as Audit
+database "Database\n(EntityMaster, etc.)" as DB
+
+== Authentication & Navigation ==
+Terry -> Plateau: Login (Active Directory)
+Plateau -> Terry: Authentication successful
+Terry -> Plateau: Navigate to Agent Services
+Plateau -> AgentServices: **INTEGRATION #1**\nRoute to Agent Services module
+note right: Shared authentication\nUnified navigation\nConsistent UI/UX
+
+== Agent Setup Process ==
+Terry -> AgentServices: Submit NEW ACCOUNT SETUP form
+AgentServices -> AgentServices: Validate form data
+AgentServices -> Plateau: Request Senior Officer approval
+Plateau -> Terry: Display approval workflow
+Terry -> Plateau: Submit for approval
+Plateau -> AgentServices: **INTEGRATION #2**\nApproval status update
+note right: Shared approval workflow\nStatus synchronization
+
+== Database Operations ==
+AgentServices -> DB: Create EntityMaster record
+DB -> AgentServices: EntityMaster ID returned
+AgentServices -> DB: Create AgentSetupDirect records
+AgentServices -> DB: Create AgentSetupMasterCredit records
+AgentServices -> DB: Create AgentSetupValuesCredit records
+note right: C# automated operations\nHierarchical table management\nBulk operations support
+
+== Licensing Integration ==
+AgentServices -> Licensing: **INTEGRATION #3**\nAgent data for licensing
+note right: Shared agent data\nIntegrated appointment management
+Licensing -> DB: Update licensing appointments
+Licensing -> Licensing: Generate monthly letters
+Licensing -> Licensing: Generate annual cleanup letters
+Licensing -> AgentServices: Licensing status update
+
+== Audit & Logging ==
+AgentServices -> Audit: **INTEGRATION #4**\nLog EntityMaster changes
+note right: Centralized logging system\nCross-module audit trails
+Licensing -> Audit: Log licensing activities
+Audit -> DB: Store audit records
+Audit -> Plateau: Send status notifications
+
+== Data Synchronization ==
+loop For each change
+  AgentServices -> Plateau: Sync agent status
+  Plateau -> AgentServices: Confirm sync
+  AgentServices -> Licensing: Sync licensing data
+  Licensing -> AgentServices: Confirm sync
+end
+
+== Exception Handling ==
+alt Commission mismatch detected
+  AgentServices -> Terry: Display error notification
+  Terry -> AgentServices: Review and correct
+  AgentServices -> DB: Update corrected data
+  AgentServices -> Audit: Log correction
+  AgentServices -> Plateau: Update status
+end
+
+== Report Processing ==
+AgentServices -> AgentServices: Wait for first monthly report
+AgentServices -> DB: Query agent setup status
+DB -> AgentServices: Return setup data
+AgentServices -> AgentServices: Complete agent configuration
+AgentServices -> Audit: Log completion
+AgentServices -> Plateau: Update final status
+
+@enduml

@@ -1,0 +1,345 @@
+# Agent Services - Project Overview
+
+## 📋 Project Summary
+
+**Project Name:** Agent Services Automation  
+**Objective:** Replace legacy Microsoft Access system with modern web interface for agent management and setup processes  
+**Current Status:** Discovery Phase  
+**Technology Stack:** HTML + C# (.NET)  
+
+## 🏢 Business Context
+
+### What is Agent Services?
+Agent Services is a department responsible for setting up and managing agents (financial institutions, banks, credit unions) who sell insurance products for the company. These agents are the individual locations that sell insurance products tied to financial transactions (loans, mortgages, etc.).
+
+### Business Model
+- **Insurance Type:** Credit insurance primarily
+- **Products:** Life, disability, property, auto, and other insurance products tied to financial transactions
+- **Premium Structure:** Mostly single premium policies (3 months to 10+ years terms)
+- **Agents:** Banks, credit unions, dealerships, finance companies
+
+## 🔄 Current Process (As-Is)
+
+### **Process Flow Diagram:**
+![Current Process (As-Is)](current_process_as_is_v1.png)
+*Diagram shows current process with manual operations in Access, Excel tracking and pain points*
+
+### 1. **Initiation Phase**
+- **Trigger:** Marketing Rep or General Agent submits "NEW ACCOUNT SETUP" form
+- **Form Details:** Fillable PDF containing:
+  - Account name, TIN, branch information
+  - Loan platform details
+  - Products to be offered
+  - Commission structures
+  - Retro/reinsurance information
+  - Terms, limits, and rates
+
+### 2. **Review & Approval**
+- **Agent Services:** Intake and review setup form
+- **Verification:** Check commissions against General Agent Agreement
+- **Senior Officer:** Approve or reject new account setup
+- **Decision Point:** If rejected, return to Agent Services for corrections
+
+### 3. **Document Preparation**
+- **Master Policies:** Prepare state/product-specific policies (fillable PDFs)
+- **Producer Agreements:** Create agreements based on state variants
+- **Email Process:** Send agreements for signature, receive signed documents
+
+### 4. **System Setup**
+- **Access Database:** Create agent in EntityMaster table
+  - EntityType = 'Agent'
+  - Mailing/physical/claims addresses
+  - ACH flag, Licensing flag, TIN, DAT%
+  - Licensing contact information
+  - Status = PENDING
+- **Manual Tracking:** Duplicate data entry in Excel spreadsheet
+
+### 5. **Licensing Process**
+- **Jessica (Licensing Specialist):** Maintain appointments in separate Access database
+- **Monthly Letters:** Send new/terminated appointment notifications
+- **Annual Cleanup:** January roster cleanup to avoid fees (thousands of letters)
+
+### 6. **Platform Integration**
+- **Loan Platform Provider:** Receive worksheet and release forms
+- **Enable Forms/Rates:** Configure platform for agent's use
+
+### 7. **Final Configuration**
+- **Wait Period:** Wait for first monthly report (3-5 day rescission period)
+- **Conditional Setup:** Only complete setup after receiving first business
+- **Database Configuration:**
+  - AgentSetupDirect (plans) - **NEVER DELETE**
+  - AgentSetupMasterCredit (commission, reinsurance, risk, term, rates)
+  - AgentSetupValuesCredit (durations 0-100 years)
+  - Optional: Copy plans from existing agent
+
+### 8. **Operations & Exception Handling**
+- **Operations & Claims:** Process business under configured plans
+- **Exception Handling:** Handle commission mismatches in first report
+  - Review originals
+  - Correct contracts and re-send for signatures
+
+## ⚠️ Current Pain Points
+
+### **PAIN POINT #1: Manual Excel Tracking**
+- **Problem:** Duplicate data entry after Access/document processing
+- **Impact:** Time-consuming manual work, prone to errors
+- **Desired Solution:** Automatic tracking fed from system
+
+### **PAIN POINT #2: Licensing Letters & Roster Cleanup**
+- **Problem:** 
+  - Thousands of letters sent manually
+  - Outdated email addresses
+  - Heavy manual printing/mailing
+- **Impact:** Significant time investment, especially during January cleanup
+- **Frequency:** Monthly letters + annual cleanup
+
+## 🏢 PLATEAU System Overview
+
+### **What is PLATEAU?**
+**PLATEAU** is the company's modern web-based operational system for managing insurance operations. It's a comprehensive corporate platform that handles the core business processes.
+
+### **PLATEAU Architecture:**
+```
+PLATEAU Dashboard
+├── Accounting
+├── Agents 
+├── Admin
+├── Dev
+└── Employees
+```
+
+### **What Already Works in PLATEAU:**
+
+#### **1. Certificate Management:**
+- **Certificate Creation:** Complete forms with borrower, lender, and loan information
+- **Certificate Details:** Full certificate information (status, dates, amounts)
+- **Lifecycle Management:** Cancel, reissue certificates
+- **Bulk Operations:** Mass actions on multiple certificates
+
+#### **2. Reporting System:**
+- **Report Creation:** "Create Report" functionality
+- **Detailed Reports:** Tabbed interface (Overview, Actions, Cert, Error Check)
+- **Financial Reporting:** Transactions, premiums, commissions
+- **Search & Filtering:** Multiple criteria search capabilities
+
+#### **3. Financial Module:**
+- **Premium Tracking:** ISSUE PREM, CANCEL PREM, NET PREM
+- **Commission Management:** RETAIN COM, AGENT REM, LVL2 RET
+- **Multi-level Structure:** Agent and Level 2 commissions
+
+#### **4. Interface & Navigation:**
+- **Modern Web Interface:** Professional, clean design
+- **Authentication System:** User login (e.g., Ammon Manning)
+- **Multi-level Navigation:** Home → Certificates → Reports → Plans → Uploads
+- **Search Functionality:** By agent, certificate, person, claim
+
+### **Current System Integration:**
+```
+PLATEAU (Web System) ←→ Access (Legacy Agent Services)
+```
+
+## 🛠 Technical Architecture (Current)
+
+### **Legacy Agent Services System:**
+- **Database:** Microsoft Access (30-year-old legacy system)
+- **Interface:** Access forms (legacy UI)
+- **Data Storage:** Normal relational database accessed through old forms
+- **Authentication:** Basic Access security
+
+### **Key Database Tables:**
+- **EntityMaster:** Stores all account information
+- **AgentSetupDirect:** Indicates which plans an agent can sell
+- **AgentSetupMasterCredit:** Links agents and plans to commission/reinsurance tables
+- **AgentSetupValuesCredit:** Detailed values for different durations (0-100 years)
+
+### **Current Limitations:**
+- No modern web interface for Agent Services
+- Manual data entry and tracking
+- Limited search capabilities
+- No automated workflows
+- Legacy VBA code mixed with SQL stored procedures
+- **Disconnected from PLATEAU:** Agent Services runs separately from main system
+
+## 🎯 Project Goals (To-Be) 
+
+### **Primary Objectives (From Internal Sync):**
+1. **Eliminate Manual Excel Copy-Paste:** Replace Terry's manual Ctrl-C, Ctrl-V operations with automated C# operations
+2. **Automate Complex Table Relationships:** Handle EntityMaster → AgentSetupDirect → MasterCredit → ValuesCredit relationships automatically
+3. **Add Comprehensive Audit Logging:** Track all changes at EntityMaster level (agreed approach by team)
+4. **Create Hierarchical Navigation:** Drill-down interface from EntityMaster to related tables
+5. **Integrate with PLATEAU:** Build Agent Services as module within existing PLATEAU system
+6. **Maintain Database Structure:** Keep existing table relationships, automate operations through C# code
+
+### **Target Architecture (Team Decision):**
+```
+PLATEAU (Existing System)
+├── PLATEAU Core (Authentication, Navigation)
+├── Agent Services Module (NEW)
+│   ├── Web Interface (replaces Access forms)
+│   ├── C# Automated Operations
+│   ├── Hierarchical Navigation
+│   └── EntityMaster-level Logging
+├── Licensing Module (Integrated)
+└── Audit & Logging (Centralized)
+```
+
+### **Target Process Flow Diagram:**
+![Target Process (To-Be)](agent_services_tobe_v1.png)
+*Diagram shows target process with PLATEAU integration, automation and 4 integration points*
+
+### **System Integration Sequence:**
+![System Integration Sequence](agent_services_integration_sequence.png)
+*Sequence diagram shows interaction between systems, data transfer and integration points*
+
+### **Key Features Required (From Team Discussion):**
+
+#### **Core Functionality:**
+- **Single/Bulk Insert/Update/Automation:** As specified in team requirements
+- **Drill-down Navigation:** EntityMaster → Direct → MasterCredit → ValuesCredit
+- **Bulk Operations:** Copy values between agents, bulk plan operations
+- **Plan Management:** Add/Edit plan codes with bulk operations support
+
+#### **Technical Implementation:**
+- **Web Interface:** Replace Access forms with modern web UI
+- **C# Automation:** Automated insert/update operations instead of manual Excel operations
+- **Database Integration:** Direct database operations, maintain existing table structure
+- **Logging Strategy:** Track changes only at EntityMaster level (top-level table)
+
+### **Technical Requirements (From Team Decisions):**
+
+#### **Infrastructure:**
+- **Corporate Portal:** Internal system (not public internet) - as discussed
+- **Authentication:** Active Directory integration (Azure environment) - confirmed
+- **Permissions:** Managed through Active Directory for user access control
+
+#### **UI/UX Requirements:**
+- **UI Kit Approach:** Create reusable UI components for consistent design
+- **PLATEAU Integration:** Leverage existing PLATEAU styling and components
+- **Design Review:** Ammon will review and provide feedback on visual design
+- **No Technical Designs Needed:** Ammon will be stakeholder for visual aspects
+
+#### **Database Integration:**
+- **Maintain Existing Structure:** Keep current table relationships (EntityMaster, AgentSetupDirect, etc.)
+- **Automated Operations:** C# code handles complex table updates (1 EntityMaster change = up to 100 related records)
+- **Logging Strategy:** Track changes only at EntityMaster level (agreed team approach)
+
+### **Success Criteria (From Team Analysis):**
+- **Eliminate Manual Operations:** No more Terry's manual copy-paste between Excel and Access
+- **Automate Complex Relationships:** Handle 1-to-many and many-to-many table relationships automatically
+- **Provide Audit Trail:** Complete logging of all EntityMaster changes for compliance
+- **Improve User Experience:** Hierarchical navigation and bulk operations
+- **Maintain Data Integrity:** Automated operations reduce human error
+- **Faster Development:** Build upon existing PLATEAU framework rather than starting from scratch
+
+## 📊 Process Metrics
+
+### **Current Performance:**
+- **Setup Time:** 30 minutes (simple) to 1 hour (complex)
+- **Error Rate:** Manual process prone to human error
+- **Volume:** Multiple agents setup per day
+- **Dependencies:** Operations and Claims depend on Agent Services setup
+
+### **Success Criteria:**
+- Reduce setup time
+- Eliminate manual tracking
+- Improve data accuracy
+- Streamline licensing processes
+- Better audit trail
+
+## 🔗 Dependencies
+
+### **Internal Dependencies:**
+- **Operations & Claims:** Dependent on Agent Services setup
+- **Licensing Department:** Separate Access database integration
+- **Senior Officers:** Approval workflow integration
+
+### **External Dependencies:**
+- **Loan Platform Providers:** Worksheet and release form integration
+- **Marketing Reps/General Agents:** Form submission process
+
+## 💡 Key Insights About PLATEAU Integration
+
+### **What This Means for the Project:**
+1. **Not a Greenfield Project:** PLATEAU already exists with modern architecture
+2. **Extension, Not Replacement:** Agent Services will be a new module within PLATEAU
+3. **Code Reuse Opportunities:** Leverage existing UI components, navigation, search, bulk operations
+4. **Minimal User Training:** Users already familiar with PLATEAU interface
+5. **Faster Development:** Build upon existing framework rather than starting from scratch
+
+### **Leverage Opportunities:**
+- **UI Framework:** Reuse PLATEAU's design system and components
+- **Navigation Structure:** Extend existing menu system
+- **Search Patterns:** Apply existing search functionality to agents
+- **Bulk Operations:** Use established bulk action patterns
+- **Authentication:** Integrate with existing Active Directory system
+- **Database Layer:** Connect to existing data access patterns
+
+### **Development Approach:**
+- **Phased Integration:** Add Agent Services functionality incrementally
+- **Consistent UX:** Maintain PLATEAU's user experience patterns
+- **Seamless Integration:** Make Agent Services feel like native PLATEAU functionality
+- **Minimal Disruption:** Existing PLATEAU users continue working normally
+
+## 🎯 Team Decisions & Project Approach
+
+### **Project Prioritization Decision:**
+**Agent Services selected as priority project** over TransCredit based on:
+- **More information available** - comprehensive discovery materials already gathered
+- **Simpler scope** - no complex external agent communication workflows
+- **Faster delivery** - can show results sooner to client
+- **TransCredit not ready** - requirements still being developed (1.5-2x scope increase expected)
+
+### **Technical Architecture Decisions:**
+
+#### **Current Pain Points Identified:**
+- **Manual Excel Copy-Paste:** Terry (operations specialist) manually copies data between Access tables
+- **Complex Table Relationships:** One EntityMaster change = up to 100 related records across multiple tables
+- **No Audit Logging:** No tracking of changes at EntityMaster level
+- **Manual Process:** Ctrl-C, Ctrl-V operations between Excel and Access
+
+#### **Target Solution Architecture:**
+- **Web Interface:** Replace Access forms with modern web UI
+- **C# Automation:** Automated insert/update operations instead of manual copy-paste
+- **Hierarchical Navigation:** Drill-down interface from EntityMaster to related tables
+- **Audit Logging:** Track all changes at EntityMaster level only (agreed approach)
+
+### **Technical Requirements (From Team Discussion):**
+
+#### **Infrastructure:**
+- **Corporate Portal:** Internal system (not public internet)
+- **Authentication:** Active Directory integration (Azure environment)
+- **Permissions:** Managed through Active Directory for user access control
+
+#### **UI/UX Requirements:**
+- **UI Kit Approach:** Create reusable UI components for consistent design
+- **PLATEAU Integration:** Leverage existing PLATEAU styling and components
+- **Hierarchical Navigation:** EntityMaster → AgentSetupDirect → MasterCredit → ValuesCredit
+- **Functionality:** Single/Bulk Insert/Update/Automation operations
+
+#### **Database Integration:**
+- **Maintain Existing Structure:** Keep current table relationships
+- **Automated Operations:** C# code handles complex table updates
+- **Logging Strategy:** Track changes only at EntityMaster level (top-level table)
+
+### **Development Team Structure:**
+- **Ivan Sokolov:** Primary knowledge holder, will create detailed video walkthrough
+- **Aleksandr Nasstrom:** New developer joining the project
+- **Akop:** Will update process diagrams based on Terry's feedback
+- **Terry:** Current operations specialist, key stakeholder for process validation
+
+### **Next Steps (Agreed in Meeting):**
+1. **Team Onboarding:** Aleksandr to review all Agent Services materials
+2. **Process Validation:** Update diagrams based on Terry's feedback
+3. **Technical Deep Dive:** Ivan to create detailed technical video
+4. **Client Coordination:** Align with client on Agent Services priority
+5. **Requirements Gathering:** Additional clarifications from Terry and IT team (Eric - CTO, Eric - IT Lead)
+
+## 📅 Project Timeline
+
+- **Current Phase:** Discovery and requirements gathering
+- **Next Steps:** Technical specification and estimation for PLATEAU integration
+- **Target:** Integrate Agent Services module into existing PLATEAU system
+
+---
+
+*Document created based on analysis of project transcripts, stakeholder interviews, and PLATEAU system screenshots*

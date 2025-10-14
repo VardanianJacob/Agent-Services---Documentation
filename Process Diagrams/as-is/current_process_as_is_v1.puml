@@ -1,0 +1,94 @@
+@startuml
+title Agent Services - Current Process (As-Is)
+
+skinparam dpi 150
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  RoundCorner 20
+}
+skinparam note {
+  BackgroundColor #FFFFCC
+  BorderColor #999900
+}
+skinparam partitionBorderColor #666666
+skinparam partitionBackgroundColor #F9F9F9
+skinparam shadowing false
+
+start
+
+partition "Marketing / General Agent" {
+  :Fill NEW ACCOUNT SETUP (fillable PDF)\nname, TIN, branches, loan platform,\nproducts, commissions, retro/reinsurance,\nterms/limits/rates;
+  :Submit to Agent Services;
+}
+
+partition "Agent Services" {
+  :Intake & review Setup Form;
+  :Verify commissions vs General Agent Agreement;
+}
+
+partition "Senior Officer" {
+  if ("Approve new account?") then (Yes)
+    :Sign-off;
+  else (No)
+    :Return to Agent Services;
+  endif
+}
+
+partition "Agent Services" {
+  :Prepare Master Policies (state/product folders; fillable PDFs);
+  :Prepare Producer Agreement (state/company variants);
+  :Email agreements for signature; receive signed docs;
+  :Create Agent in Access -> EntityMaster\n(EntityType=Agent; mailing/physical/claims addresses;\nACH flag; Licensing flag; TIN; DAT%; Licensing contact);\nSet Status = PENDING;
+  :Manual tracking in Excel (tabs changes/new; date/action);
+  note right
+  PAIN POINT #1 — Manual Excel tracking
+  • Duplicate data entry after Access/docs
+  • Desire automatic tracking fed from system
+  end note
+}
+
+partition "Licensing (Jessica)" {
+  :Maintain appointments in Licensing DB (Access);
+  :Monthly letters: new/terminated;
+  :Annual letters (Jan): roster cleanup to avoid fees\n(often paper due to stale emails);
+  note right
+  PAIN POINT #2 — Licensing letters & roster cleanup
+  • Thousands of letters; outdated emails
+  • Heavy manual printing/mailing
+  end note
+}
+
+partition "Loan Platform Provider" {
+  :Receive worksheet + release;
+  :Enable forms/rates on platform;
+}
+
+partition "Agent Services" {
+  :Wait for FIRST MONTHLY REPORT (arrears; 3-5 day rescission);
+  if ("First report received?") then (Yes)
+    :Complete Agent Setup in Access (before processing report):\n- AgentSetupDirect (plans) «NEVER DELETE»\n- AgentSetupMasterCredit (commission, reins, risk, term, rates)\n- AgentSetupValuesCredit (durations 0-100 via Table_Num)\nOptional: Copy all plans from old agent;
+  else (No)
+    :Remain PENDING (no plan tables configured);
+  endif
+}
+
+partition "Operations & Claims" {
+  :Process business under configured plans;
+}
+
+partition "Exception Handling" {
+  if ("Commission mismatch in first report?") then (Yes)
+    :Review originals;\nCorrect contracts; re-send for signatures;
+  else (No)
+    :Proceed;
+  endif
+}
+
+stop
+
+@enduml
