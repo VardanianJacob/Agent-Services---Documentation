@@ -21,7 +21,7 @@ Agent Services is a department responsible for setting up and managing agents (f
 ## 🔄 Current Process (As-Is)
 
 ### **Process Flow Diagram:**
-![Current Process (As-Is)](current_process_as_is_v2.png)
+![Current Process (As-Is)](current_process_as_is.png)
 *Complete current process including parallel exception handling, platform integration, and filing flow*
 
 ### 1. **Initiation Phase**
@@ -196,10 +196,10 @@ PLATEAU (Existing System)
 ```
 
 ### **Target Process Flow Diagram:**
-![Proposal Process](agent_services_proposal_v2.png)
+![Proposal Process](agent_services_proposal.png)
 *Complete proposal process with all current process elements plus 6 automation points*
 
-### **🚀 Automation Points (Proposal v2):**
+### **🚀 Automation Points:**
 
 #### **AUTOMATION #1: Web Form vs PDF**
 - **Current:** Fillable PDF forms with email back-and-forth

@@ -44,10 +44,10 @@ Agent Services/
     ├── as-is/                         # Current processes
     │   ├── [Draft, in review] Agent Services – Current Process (As-Is).puml
     │   ├── current_process_as_is_v1.puml
-    │   └── current_process_as_is_v2.puml
+    │   └── current_process_as_is.puml
     └── Proposal Target Process/       # Target processes
         ├── agent_services_tobe_v1.puml
-        ├── agent_services_proposal_v2.puml
+        ├── agent_services_proposal.puml
         └── agent_services_integration_sequence.puml
 ```
 
@@ -70,9 +70,9 @@ Documentation created based on analysis:
 ### **Process Diagrams/**
 Process diagrams in PlantUML format:
 - **as-is/** - current processes (as-is)
-  - `current_process_as_is_v2.puml` - **CURRENT** Complete current process with parallel flows
+  - `current_process_as_is.puml` - **CURRENT** Complete current process with parallel flows
 - **Proposal Target Process/** - target processes (to-be)
-  - `agent_services_proposal_v2.puml` - **CURRENT** Complete proposal with 6 automation points
+  - `agent_services_proposal.puml` - **CURRENT** Complete proposal with 6 automation points
   - `agent_services_integration_sequence.puml` - Sequence diagram of system integrations
 
 ## 🎯 Key Findings
