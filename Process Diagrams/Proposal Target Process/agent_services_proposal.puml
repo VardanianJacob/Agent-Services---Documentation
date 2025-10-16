@@ -41,7 +41,6 @@ partition "Marketing / General Agent" {
 
 partition "Agent Services System" {
   :Intake & Review Forms\n(Web Interface);
-  :Verify Commissions vs General Agent Agreement;
   :System creates agent entity\nStatus: CREATED;
   :Automatic validation checks:\n- Duplicate TIN detection\n- Required fields verification\n- Document completeness;
   if ("Validation passed?") then (Yes)
@@ -55,8 +54,22 @@ partition "Agent Services System" {
   endif
 }
 
+partition "Operations Team" {
+  :Verify Commissions vs General Agent Agreement\n(Web Interface);
+  :Review agent setup requirements;
+  :Validate business rules and compliance;
+  if ("Operations approval?") then (Yes)
+    :Status: OPERATIONS_APPROVED;
+  else (No)
+    :Status: OPERATIONS_REJECTED;
+    :Send detailed feedback to agent;
+    :Agent updates and resubmits;
+    :Status: CREATED;
+  endif
+}
+
 partition "Senior Officer" {
-  if ("Approve New / Change Account?") then (YES)
+  if ("Status = OPERATIONS_APPROVED\nApprove New / Change Account?") then (YES)
     :Sign Off via Web Interface;
     :Status: APPROVED;
   else (NO)
