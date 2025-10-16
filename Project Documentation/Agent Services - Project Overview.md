@@ -39,8 +39,9 @@ Agent Services is a department responsible for setting up and managing agents (f
 
 ### 2. **Review & Approval**
 - **Agent Services:** Intake and review setup form
-- **Verification:** Check commissions against General Agent Agreement
-- **Senior Officer:** Approve or reject new account setup
+- **Operations Team:** Verify commissions against General Agent Agreement (Web Interface)
+- **Operations Team:** Review agent setup requirements and validate business rules
+- **Senior Officer:** Approve or reject new account setup (only after Operations approval)
 - **Decision Point:** If rejected, return to Agent Services for corrections
 
 ### 3. **Document Preparation**
@@ -57,10 +58,11 @@ Agent Services is a department responsible for setting up and managing agents (f
   - Status = PENDING
 - **Manual Tracking:** Duplicate data entry in Excel spreadsheet
 
-### 5. **Licensing Process**
-- **Jessica (Licensing Specialist):** Maintain appointments in separate Access database
-- **Monthly Letters:** Send new/terminated appointment notifications
-- **Annual Cleanup:** January roster cleanup to avoid fees (thousands of letters)
+### 5. **Licensing Process (Optional)**
+- **Licensing Specialist:** Maintain appointments in integrated system
+- **Automated Monthly Letters:** Send new/terminated appointment notifications
+- **Automated Annual Cleanup:** January roster cleanup with email validation and delivery tracking
+- **Conditional Process:** Only executed when licensing is required for the agent
 
 ### 6. **Platform Integration**
 - **Loan Platform Provider:** Receive worksheet and release forms
