@@ -138,19 +138,23 @@ partition "Agent Services System" {
   end note
 }
 
-partition "Licensing (Jessica)" {
-  :Maintain Appointments in Licensing DB\n(Integrated System);
-  :Automated Monthly Letters – New/Terminated;
-  :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
-  note right
-  🚀 AUTOMATION #5
-  Licensing Integration
-  • Automated letter generation
-  • Email validation and tracking
-  • Reduced manual printing/mailing
-  • Integrated appointment management
-  end note
-}
+if ("Licensing required?") then (Yes)
+  partition "Licensing" {
+    :Maintain Appointments in Licensing DB\n(Integrated System);
+    :Automated Monthly Letters – New/Terminated;
+    :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
+    note right
+    🚀 AUTOMATION #5
+    Licensing Integration
+    • Automated letter generation
+    • Email validation and tracking
+    • Reduced manual printing/mailing
+    • Integrated appointment management
+    end note
+  }
+else (No)
+  :Skip licensing process;
+endif
 
 partition "Platform Integration" {
   if ("Certificate available?") then (YES)
