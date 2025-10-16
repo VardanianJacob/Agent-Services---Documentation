@@ -45,7 +45,7 @@ Agent Services/
     │   ├── [Draft, in review] Agent Services – Current Process (As-Is).puml
     │   ├── current_process_as_is_v1.puml
     │   └── generate_diagram.sh
-    └── to-be/                         # Target processes
+    └── Proposal Target Process/       # Target processes
         ├── agent_services_tobe_v1.puml
         ├── agent_services_integration_sequence.puml
         ├── generate_diagram.sh
@@ -71,7 +71,7 @@ Documentation created based on analysis:
 ### **Process Diagrams/**
 Process diagrams in PlantUML format:
 - **as-is/** - current processes (as-is)
-- **to-be/** - target processes (to-be)
+- **Proposal Target Process/** - target processes (to-be)
   - `agent_services_tobe_v1.puml` - Activity diagram of target process
   - `agent_services_integration_sequence.puml` - Sequence diagram of system integrations
 
