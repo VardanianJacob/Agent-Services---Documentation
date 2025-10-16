@@ -44,12 +44,11 @@ Agent Services/
     ├── as-is/                         # Current processes
     │   ├── [Draft, in review] Agent Services – Current Process (As-Is).puml
     │   ├── current_process_as_is_v1.puml
-    │   └── generate_diagram.sh
+    │   └── current_process_as_is_v2.puml
     └── Proposal Target Process/       # Target processes
         ├── agent_services_tobe_v1.puml
-        ├── agent_services_integration_sequence.puml
-        ├── generate_diagram.sh
-        └── generate_sequence.sh
+        ├── agent_services_proposal_v2.puml
+        └── agent_services_integration_sequence.puml
 ```
 
 ## 📁 Folder Description
@@ -71,24 +70,30 @@ Documentation created based on analysis:
 ### **Process Diagrams/**
 Process diagrams in PlantUML format:
 - **as-is/** - current processes (as-is)
+  - `current_process_as_is_v2.puml` - **CURRENT** Complete current process with parallel flows
 - **Proposal Target Process/** - target processes (to-be)
-  - `agent_services_tobe_v1.puml` - Activity diagram of target process
+  - `agent_services_proposal_v2.puml` - **CURRENT** Complete proposal with 6 automation points
   - `agent_services_integration_sequence.puml` - Sequence diagram of system integrations
 
 ## 🎯 Key Findings
 
 ### **Current State:**
 - Legacy Microsoft Access system (30 years old)
-- Manual processes with data duplication
-- Two main pain points:
+- Complex manual processes with multiple parallel flows
+- Multiple pain points including:
   - **PAIN POINT #1:** Manual Excel tracking
   - **PAIN POINT #2:** Licensing letters and roster cleanup
+  - **Additional Issues:** PDF forms, manual document handling, status tracking
 
 ### **Target State:**
-- Modern web interface
-- Automation of manual processes
-- Integration with existing PLATEAU system
-- Improved tracking and audit
+- Modern web interface with 6 key automation points
+- Complete process automation including:
+  - Web forms replacing PDFs
+  - E-sign integration
+  - Automated document generation
+  - Real-time status tracking
+  - Comprehensive exception handling
+- Full integration with existing PLATEAU system
 
 ### **Technical Details:**
 - **Database:** SQL Server (existing)
@@ -99,13 +104,14 @@ Process diagrams in PlantUML format:
 ## 📊 Agent Services Process
 
 ### **Main Stages:**
-1. **Initiation** - Marketing Rep/General Agent submits application
+1. **Initiation** - Marketing Rep/General Agent submits NEW ACCOUNT SETUP or AGENT CHANGE REQUEST
 2. **Review** - Agent Services reviews and verifies data
 3. **Approval** - Senior Officer approves or rejects
 4. **Setup** - Document preparation and system configuration
 5. **Licensing** - License and appointment setup
-6. **Integration** - Loan platform configuration
+6. **Integration** - Loan platform configuration and testing
 7. **Completion** - Wait for first report and final setup
+8. **Additional Elements** - Reinsurance agreements, certificate management, rate maintenance, filing process
 
 ### **Execution Time:**
 - Simple case: 30 minutes

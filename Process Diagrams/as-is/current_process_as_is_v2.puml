@@ -1,0 +1,144 @@
+@startuml
+title Agent Setup & Platform Integration — Parallel Exception Handling & Filing Flow
+
+skinparam activity {
+  BackgroundColor White
+  BarColor #222
+  StartColor #222
+  EndColor #222
+  DiamondBackgroundColor #f7f7f7
+}
+skinparam note {
+  BackgroundColor #fffde7
+  BorderColor #c0b800
+}
+
+partition "Marketing / General Agent" {
+  start
+  fork
+    :Fill NEW ACCOUNT SETUP\n(as previously outlined);
+  fork again
+    :Fill AGENT CHANGE REQUEST (PDF);
+  end fork
+  :Submit to Agent Services;
+}
+
+partition "Agent Services" {
+  :Intake & Review Forms;
+  :Verify Commissions / General Agent Agreement;
+}
+
+partition "Senior Officer" {
+  if ("Approve New / Change Account?") then (YES)
+    :Sign Off;
+  else (NO)
+    :Return for correction / decline;
+    stop
+  endif
+}
+
+partition "Agent Services" {
+  :Prepare/Update Master Policies;
+  :Prepare/Update Producer Agreement;
+  :Email agreements for signature /\nreceive signed docs;
+  :Create Agent in Access – Entity Master;
+  :Manual Tracking in Excel;
+  note right
+    PAIN POINT: manual spreadsheets
+  end note
+
+  if ("Reinsurance agreements needed?") then (YES)
+    :Prepare / execute Reinsurance agreements;
+  else (NO)
+  endif
+
+  if ("Retro agreements needed / executed?") then (YES)
+    :Prepare / execute Retro agreements;
+  else (NO)
+  endif
+}
+
+partition "Licensing (Jessica)" {
+  :Maintain Appointments in Licensing DB;
+  :Monthly Letters – New/Terminated;
+  :Annual Letters (Jan);
+  note right
+    PAIN POINT
+  end note
+}
+
+partition "Platform Integration" {
+  if ("Certificate available?") then (YES)
+    :Request Certificate from Platform;
+  else (NO)
+    :Program Certificate;
+  endif
+
+  :Create Worksheets and/or Questionnaires;
+  :Perform Testing to Verify\nCalculations & Population;
+}
+
+partition "Agent Services" {
+  :Wait for First Monthly Report\n(arrears, 3–5 day recession);
+  if ("First report received?") then (YES)
+    :Complete Agent Setup;
+    :AgentSetupDirect;
+    :AgentSetupMasterCredit;
+    :AgentSetupValues Credit;
+    :Optional: Copy all from old agent;
+    :Reinsurance Setups;
+    :Retro Setups;
+    :Level II Setups;
+  else (NO)
+    :Remain Pending;
+    :No Plan Tables Configured;
+  endif
+}
+
+partition "Operations & Claims" {
+  :Process Business under Configured Plans;
+}
+
+' -------------------- PARALLEL START --------------------
+fork
+
+  partition "Exceptions Handling" {
+    if ("Commission mismatch?\nPlan mismatch?") then (YES)
+      :Review originals;
+      :Correct contracts;
+      :Resend for signatures;
+    else (NO)
+      :Proceed;
+    endif
+
+    if ("Premium calculation errors?\nDocument errors?") then (YES)
+      :Review setup;
+      :Review rates/worksheets sent to agent;
+      fork
+        :Update APS to correct;
+      fork again
+        :Update with Agent to correct;
+      end fork
+    else (NO)
+      :No further action;
+    endif
+  }
+
+fork again
+
+  partition "Platform Integration (Rate Maintenance)" {
+    :Annual / Tri-Annual Rate Changes;
+    :Notification from State;
+    :Create Rate Charts;
+    if ("Filing necessary?") then (YES)
+      :Send chart to Filing Team;
+    else (NO)
+      :Send notification to all affected Agents;\nUpdate APS – Update eWinLoan;
+    endif
+  }
+
+end fork
+' -------------------- PARALLEL END --------------------
+
+end
+@enduml

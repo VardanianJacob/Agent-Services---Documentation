@@ -1,0 +1,230 @@
+@startuml
+title Agent Services - Proposal Process v2\nComplete Process with Automation & Pain Point Solutions
+
+skinparam dpi 150
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+  StartColor Black
+  EndColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+  RoundCorner 20
+}
+skinparam note {
+  BackgroundColor #E8F5E8
+  BorderColor #4CAF50
+}
+skinparam partitionBorderColor #666666
+skinparam partitionBackgroundColor #F9F9F9
+skinparam shadowing false
+
+start
+
+partition "Marketing / General Agent" {
+  fork
+    :Fill NEW ACCOUNT SETUP\n(Web Form with validation);
+    note right
+    🚀 AUTOMATION #1
+    Web Form vs PDF
+    • Real-time validation
+    • No email back-and-forth
+    • Automatic data capture
+    • Document attachments
+    • Pre-filled for returning agents
+    end note
+  fork again
+    :Fill AGENT CHANGE REQUEST\n(Web Form with validation);
+  end fork
+  :Submit to Agent Services System;
+}
+
+partition "Agent Services System" {
+  :Intake & Review Forms\n(Web Interface);
+  :Verify Commissions vs General Agent Agreement;
+  :System creates agent entity\nStatus: CREATED;
+  :Automatic validation checks:\n- Duplicate TIN detection\n- Required fields verification\n- Document completeness;
+  if ("Validation passed?") then (Yes)
+    :Status: IN_PROGRESS;
+    :Notify operations team;
+  else (No)
+    :Status: REJECTED;
+    :Send correction request to agent\nwith specific field issues;
+    :Agent updates form and resubmits;
+    :Status: CREATED;
+  endif
+}
+
+partition "Senior Officer" {
+  if ("Approve New / Change Account?") then (YES)
+    :Sign Off via Web Interface;
+    :Status: APPROVED;
+  else (NO)
+    :Return for correction / decline;
+    :Status: REJECTED;
+    stop
+  endif
+}
+
+partition "Agent Services System" {
+  :Prepare/Update Master Policies\n(State/Product specific);
+  :Prepare/Update Producer Agreement\n(State/Company variants);
+  :Auto-generate documents with agent data pre-filled;
+  note right
+  🚀 AUTOMATION #2
+  Document Generation
+  • Auto-fill from agent data
+  • State-specific templates
+  • Version control
+  • Cloud storage integration
+  end note
+
+  if ("Reinsurance agreements needed?") then (YES)
+    :Prepare / execute Reinsurance agreements;
+  else (NO)
+  endif
+
+  if ("Retro agreements needed / executed?") then (YES)
+    :Prepare / execute Retro agreements;
+  else (NO)
+  endif
+}
+
+partition "E-Sign Integration" {
+  :Email agreements for signature\nvia E-Sign platform (DocuSign/PandaDoc);
+  :Status: WAITING_FOR_SIGNATURE;
+  :Track signature status:\n- Document opened\n- Signature completed\n- All parties signed;
+  if ("All signatures completed?") then (Yes)
+    :Status: SIGNED;
+    :Receive signed documents;
+    :Store signed documents in system;
+  else (No)
+    :Send reminder notifications;
+    :Wait for completion;
+  endif
+  note right
+  🚀 AUTOMATION #3
+  E-Sign Integration
+  • Automated signature tracking
+  • Reminder notifications
+  • Document storage
+  • Status synchronization
+  end note
+}
+
+partition "Agent Services System" {
+  :Create Agent in EntityMaster\n(EntityType=Agent; addresses; flags; TIN; DAT%);
+  :Status: PENDING;
+  note right
+  🚀 AUTOMATION #4
+  Automated Database Setup
+  • No manual Excel operations
+  • Hierarchical table management
+  • Bulk operations support
+  • Audit logging
+  end note
+}
+
+partition "Licensing (Jessica)" {
+  :Maintain Appointments in Licensing DB\n(Integrated System);
+  :Automated Monthly Letters – New/Terminated;
+  :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
+  note right
+  🚀 AUTOMATION #5
+  Licensing Integration
+  • Automated letter generation
+  • Email validation and tracking
+  • Reduced manual printing/mailing
+  • Integrated appointment management
+  end note
+}
+
+partition "Platform Integration" {
+  if ("Certificate available?") then (YES)
+    :Request Certificate from Platform;
+  else (NO)
+    :Program Certificate;
+  endif
+
+  :Create Worksheets and/or Questionnaires;
+  :Perform Testing to Verify\nCalculations & Population;
+  :Send worksheet and release forms\nto loan platform provider;
+  :Enable forms and rates on platform;
+}
+
+partition "Agent Services System" {
+  :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
+  if ("First report received?") then (YES)
+    :Complete Agent Setup;
+    :AgentSetupDirect (plans) «NEVER DELETE»;
+    :AgentSetupMasterCredit (commission, reins, risk, term, rates);
+    :AgentSetupValuesCredit (durations 0-100 via Table_Num);
+    :Optional: Copy all from old agent;
+    :Reinsurance Setups;
+    :Retro Setups;
+    :Level II Setups;
+    :Status: ACTIVE;
+  else (NO)
+    :Remain Pending;
+    :No Plan Tables Configured;
+  endif
+}
+
+partition "Operations & Claims" {
+  :Process Business under Configured Plans;
+}
+
+' -------------------- PARALLEL START --------------------
+fork
+
+  partition "Exceptions Handling" {
+    if ("Commission mismatch?\nPlan mismatch?") then (YES)
+      :Review originals;
+      :Correct contracts;
+      :Resend for signatures;
+    else (NO)
+      :Proceed;
+    endif
+
+    if ("Premium calculation errors?\nDocument errors?") then (YES)
+      :Review setup;
+      :Review rates/worksheets sent to agent;
+      fork
+        :Update APS to correct;
+      fork again
+        :Update with Agent to correct;
+      end fork
+    else (NO)
+      :No further action;
+    endif
+  }
+
+fork again
+
+  partition "Platform Integration (Rate Maintenance)" {
+    :Annual / Tri-Annual Rate Changes;
+    :Notification from State;
+    :Create Rate Charts;
+    if ("Filing necessary?") then (YES)
+      :Send chart to Filing Team;
+    else (NO)
+      :Send notification to all affected Agents;\nUpdate APS – Update eWinLoan;
+    endif
+  }
+
+end fork
+' -------------------- PARALLEL END --------------------
+
+note right
+🚀 AUTOMATION #6
+Status Tracking & Notifications
+• Real-time status updates
+• Automated notifications
+• Audit trail
+• Performance monitoring
+• Exception handling
+end note
+
+end
+
+@enduml

@@ -21,11 +21,14 @@ Agent Services is a department responsible for setting up and managing agents (f
 ## 🔄 Current Process (As-Is)
 
 ### **Process Flow Diagram:**
-![Current Process (As-Is)](current_process_as_is_v1.png)
-*Diagram shows current process with manual operations in Access, Excel tracking and pain points*
+![Current Process (As-Is)](current_process_as_is_v2.png)
+*Complete current process including parallel exception handling, platform integration, and filing flow*
 
 ### 1. **Initiation Phase**
-- **Trigger:** Marketing Rep or General Agent submits "NEW ACCOUNT SETUP" form
+- **Trigger:** Marketing Rep or General Agent submits forms
+- **Two Types of Requests:**
+  - **NEW ACCOUNT SETUP** - New agent onboarding
+  - **AGENT CHANGE REQUEST** - Modifications to existing agents
 - **Form Details:** Fillable PDF containing:
   - Account name, TIN, branch information
   - Loan platform details
@@ -77,6 +80,15 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **Exception Handling:** Handle commission mismatches in first report
   - Review originals
   - Correct contracts and re-send for signatures
+
+### 9. **Additional Process Elements**
+- **Agent Change Requests:** Handle modifications to existing agent setups
+- **Reinsurance Agreements:** Process reinsurance requirements when needed
+- **Retro Agreements:** Handle retroactive agreement processing
+- **Certificate Management:** Request or program certificates as required
+- **Platform Integration:** Create worksheets, perform testing, verify calculations
+- **Rate Maintenance:** Handle annual/tri-annual rate changes and state notifications
+- **Filing Process:** Manage filing requirements and agent notifications
 
 ## ⚠️ Current Pain Points
 
@@ -184,12 +196,44 @@ PLATEAU (Existing System)
 ```
 
 ### **Target Process Flow Diagram:**
-![Target Process (To-Be)](agent_services_tobe_v1.png)
-*Diagram shows target process with PLATEAU integration, automation and 4 integration points*
+![Proposal Process](agent_services_proposal_v2.png)
+*Complete proposal process with all current process elements plus 6 automation points*
 
 ### **System Integration Sequence:**
 ![System Integration Sequence](agent_services_integration_sequence.png)
 *Sequence diagram shows interaction between systems, data transfer and integration points*
+
+### **🚀 Automation Points (Proposal v2):**
+
+#### **AUTOMATION #1: Web Form vs PDF**
+- **Current:** Fillable PDF forms with email back-and-forth
+- **Proposed:** Web forms with real-time validation
+- **Benefits:** No email delays, automatic data capture, document attachments
+
+#### **AUTOMATION #2: Document Generation**
+- **Current:** Manual document preparation and filling
+- **Proposed:** Auto-generate documents with agent data pre-filled
+- **Benefits:** State-specific templates, version control, cloud storage integration
+
+#### **AUTOMATION #3: E-Sign Integration**
+- **Current:** Email agreements, manual signature tracking
+- **Proposed:** E-Sign platform with automated tracking
+- **Benefits:** Signature status tracking, reminder notifications, document storage
+
+#### **AUTOMATION #4: Automated Database Setup**
+- **Current:** Manual Excel operations and data entry
+- **Proposed:** Automated database operations with hierarchical management
+- **Benefits:** No manual Excel operations, bulk operations support, audit logging
+
+#### **AUTOMATION #5: Licensing Integration**
+- **Current:** Manual letter generation and mailing
+- **Proposed:** Automated letter generation with email validation
+- **Benefits:** Reduced manual printing/mailing, integrated appointment management
+
+#### **AUTOMATION #6: Status Tracking & Notifications**
+- **Current:** Manual status tracking and communication
+- **Proposed:** Real-time status updates with automated notifications
+- **Benefits:** Audit trail, performance monitoring, exception handling
 
 ### **Key Features Required (From Team Discussion):**
 
@@ -282,12 +326,22 @@ PLATEAU (Existing System)
 
 ## 🎯 Team Decisions & Project Approach
 
-### **Project Prioritization Decision:**
+### **October 14 Internal Sync - Project Prioritization:**
 **Agent Services selected as priority project** over TransCredit based on:
 - **More information available** - comprehensive discovery materials already gathered
 - **Simpler scope** - no complex external agent communication workflows
 - **Faster delivery** - can show results sooner to client
 - **TransCredit not ready** - requirements still being developed (1.5-2x scope increase expected)
+
+### **October 16 Technical Deep Dive - Final MVP Proposal:**
+**Complete MVP Proposal** developed by development team:
+- **Comprehensive Process Analysis** - all current process elements identified and documented
+- **6 Key Automation Points** identified for maximum impact and efficiency
+- **Web Form Solution** - replace PDF forms with validated web interfaces
+- **E-Sign Integration** - automated signature tracking and document management
+- **Real-time Status System** - tracking and notifications throughout the process
+- **Comprehensive Exception Handling** - error management and correction workflows
+- **Complete Process Coverage** - includes all parallel flows and additional elements
 
 ### **Technical Architecture Decisions:**
 
