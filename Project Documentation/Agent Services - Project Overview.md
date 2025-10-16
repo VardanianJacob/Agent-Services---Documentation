@@ -199,10 +199,6 @@ PLATEAU (Existing System)
 ![Proposal Process](agent_services_proposal_v2.png)
 *Complete proposal process with all current process elements plus 6 automation points*
 
-### **System Integration Sequence:**
-![System Integration Sequence](agent_services_integration_sequence.png)
-*Sequence diagram shows interaction between systems, data transfer and integration points*
-
 ### **🚀 Automation Points (Proposal v2):**
 
 #### **AUTOMATION #1: Web Form vs PDF**
