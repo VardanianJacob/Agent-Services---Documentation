@@ -267,7 +267,7 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 
 ### **Technical Architecture Diagram:**
 ![System Architecture](symfa_system_architecture_v2.png)
-*Updated high-level system architecture showing complete infrastructure with API Gateway, Core System (C#/Blazor), and external integrations*
+*Professional system architecture with Symfa color palette - complete infrastructure with API Gateway, Core System (C#/Blazor), and external integrations*
 
 ### **Architecture Components:**
 
