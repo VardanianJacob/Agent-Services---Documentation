@@ -1,0 +1,164 @@
+@startuml
+'!theme plain
+title Agent Services - System Architecture v2\nSymfa Implementation with API Gateway and Core System\n(Updated: Azure AD in Operations Portal, C# & Blazor, eSign Service)
+
+skinparam dpi 150
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype ortho
+
+' Top level layout
+left to right direction
+
+' ===== AGENT PORTAL =====
+package "Agent Portal" as AgentPortal #LightBlue {
+  [Digital Form\nInterface] as FormUI
+  [Document\nUpload] as DocUpload
+  [Application\nStatus] as AppStatus
+  [Agent Dashboard\n(Optional)] as Dashboard
+}
+
+note top of AgentPortal
+  **External Portal:**
+  • Public web interface
+  • Form validation
+  • Document upload
+  • Status tracking
+end note
+
+' ===== API GATEWAY =====
+package "API Gateway" as APIGw #LightPink {
+  [Authentication\n& Authorization] as Auth
+  [Request\nRouting] as Routing
+  [Rate Limiting\n& Security] as RateLimit
+}
+
+note top of APIGw
+  **API GATEWAY (DMZ):**
+  • Authentication & Authorization
+  • Request routing
+  • Security & Rate limiting
+end note
+
+AgentPortal -down-> APIGw : API Requests\nAgent Portal → Agent Management
+
+' ===== OPERATIONS PORTAL =====
+package "Operations Portal" as OpsPortal #LightYellow {
+  
+  package "Agent Management" as AgentMgmt {
+    [Entity Creation\n& Management] as EntityCreate
+    [Agent Setup\nConfiguration] as AgentSetup
+    [Plan Code\nManagement] as PlanCode
+    [Bulk Operations\nEngine] as BulkOps
+  }
+  
+  package "Senior Officer" as SeniorOff {
+    [Approval Form\nProcessing] as ApprovalForm
+    [Final Verification\nWorkflow] as Verification
+    [Complete Package\nReview] as PackageReview
+    [Multi-Document\nSignature] as MultiSign
+  }
+  
+  package "Licensing" as LicensingMod {
+    [Licensing\nModule] as LicensingBlock
+  }
+}
+
+note top of OpsPortal
+  **Technology Stack:**
+  • C# and Blazor framework
+  • Modular architecture
+  • Reusable UI components
+  • Consistent with existing PLATEAU platform
+  
+  **Security:**
+  • Azure AD 2FA Authentication
+  • Single Sign-On (SSO)
+  • Role-based access control
+end note
+
+note right of SeniorOff
+  **SENIOR OFFICER ACCESS:**
+  • Full access to all Operations Portal features
+  • Additional verification and approval capabilities
+  • Multi-document signature workflow
+end note
+
+note right of LicensingMod
+  **Existing Module:**
+  ✓ Web interface already built
+  ✓ Need email integration only
+  ✓ Ready to plug in
+end note
+
+APIGw -down-> OpsPortal
+
+' ===== CORE SYSTEM =====
+package "Core System (C#)" as CoreSys #LightGreen {
+  [Database\nInteraction Layer] as DBLayer
+  [Audit Trail\nLogging] as AuditLog
+  [Data Validation\n& Verification] as Validation
+  [Notification\nService] as Notification
+  [Business Logic\nEngine] as BizLogic
+}
+
+note left of CoreSys
+  **CORE SYSTEM (C#):**
+  • Data validation & verification
+  • Audit trail logging
+  • Business logic processing
+end note
+
+OpsPortal -down-> CoreSys : Core System Processing
+
+' ===== DATABASE =====
+database "Database\n(SQL Server)" as DB
+
+CoreSys -down-> DB : Database Operations
+
+note bottom of DB
+  **Microsoft SQL Server:**
+  • Agent Entities
+  • Setup Tables
+  • Audit Logs
+  • Configuration Data
+end note
+
+' ===== ADDITIONAL SERVICES =====
+package "Additional Services" as ExtServices #LightPink {
+  [Email\nService] as EmailSvc
+  [eSign\nService] as ESignSvc
+  [Document\nStorage Service] as DocStorage
+}
+
+note right of ESignSvc
+  **eSign Service:**
+  • E-Sign capabilities
+  • Document storage
+  • Signature status tracking
+  • Version control
+end note
+
+CoreSys -down-> ExtServices : Additional Services
+
+note bottom of ExtServices
+  **Platform Integration:**
+  • Certificate Request/Program
+  • Worksheet Creation
+  • Calculation Testing
+  • Rate Enablement
+  
+  **Parallel Processing (after Senior Officer approval):**
+  1. Document Generation + E-Sign
+  2. Database Setup → EntityMaster creation
+  3. Licensing Process → If required (parallel track)
+  4. Platform Integration → After licensing complete
+  
+  **Out of MVP Scope:**
+  • Operations & Claims processing (separate project ~90% complete)
+  • Monthly report processing (separate project)
+  • Exception handling system (happens after setup)
+end note
+
+@enduml
