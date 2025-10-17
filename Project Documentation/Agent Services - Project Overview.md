@@ -48,6 +48,10 @@ Agent Services is a department responsible for setting up and managing agents (f
 ![Current Process (As-Is)](current_process_as_is.png)
 *Current process with clarified exception handling (occurs after business processing) and separate Operations & Claims project*
 
+### **Updated Process Flow Diagram (v3):**
+![Current Process (As-Is) v3](current_process_as_is_v3.png)
+*Updated current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing*
+
 ### 1. **Initiation Phase**
 - **Trigger:** Marketing Rep or General Agent submits forms
 - **Two Types of Requests:**
@@ -204,6 +208,10 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 ### **Target Process Flow Diagram:**
 ![Proposal Process](agent_services_proposal.png)
 *Proposal process with PLATEAU integration, Citrix ShareFile E-Sign, and clarified exception handling*
+
+### **Updated Target Process Flow Diagram (v3):**
+![Proposal Process v3](agent_services_proposal_v3.png)
+*Updated proposal process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, and clarified exception handling*
 
 ### **Key Improvements from MVP Clarification:**
 
