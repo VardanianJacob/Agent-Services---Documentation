@@ -44,7 +44,12 @@ partition "Agent Services" {
   :Create Agent in Access – Entity Master;
   :Manual Tracking in Excel;
   note right
-    PAIN POINT: manual spreadsheets
+    PAIN POINT: Manual Excel Tracking
+    • Duplicate data entry after Access
+    • Manual Excel tabs for tracking
+    • Date/action logging by hand
+    • No automation between systems
+    • 10-15 min extra per agent setup
   end note
 
   if ("Reinsurance agreements needed?") then (YES)
@@ -63,7 +68,12 @@ partition "Licensing" {
   :Monthly Letters – New/Terminated;
   :Annual Letters (Jan);
   note right
-    PAIN POINT
+    PAIN POINT: Manual Licensing Letters
+    • Thousands of letters per year
+    • Manual printing and mailing
+    • Outdated email addresses
+    • Heavy manual work in January
+    • Significant printing costs
   end note
 }
 

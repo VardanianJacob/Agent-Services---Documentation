@@ -46,9 +46,12 @@ partition "Agent Services" {
   :Create Agent in Access -> EntityMaster\n(EntityType=Agent; mailing/physical/claims addresses;\nACH flag; Licensing flag; TIN; DAT%; Licensing contact);\nSet Status = PENDING;
   :Manual tracking in Excel (tabs changes/new; date/action);
   note right
-  PAIN POINT #1 — Manual Excel tracking
+  PAIN POINT #1 — Manual Excel Tracking
   • Duplicate data entry after Access/docs
-  • Desire automatic tracking fed from system
+  • Manual Excel tabs for tracking
+  • Date/action logging by hand
+  • No automation between systems
+  • 10-15 min extra per agent setup
   end note
 }
 
@@ -57,9 +60,12 @@ partition "Licensing" {
   :Monthly letters: new/terminated;
   :Annual letters (Jan): roster cleanup to avoid fees\n(often paper due to stale emails);
   note right
-  PAIN POINT #2 — Licensing letters & roster cleanup
-  • Thousands of letters; outdated emails
-  • Heavy manual printing/mailing
+  PAIN POINT #2 — Manual Licensing Letters
+  • Thousands of letters per year
+  • Manual printing and mailing
+  • Outdated email addresses
+  • Heavy manual work in January
+  • Significant printing costs
   end note
 }
 

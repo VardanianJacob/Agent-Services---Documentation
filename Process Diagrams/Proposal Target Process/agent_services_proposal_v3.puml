@@ -170,11 +170,6 @@ fork again
 
 if ("Licensing required?") then (Yes)
   partition "Licensing" {
-    note right
-      Licensing starts RIGHT BELOW
-      Senior Officer approval
-      (Eric's clarification)
-    end note
     :Maintain Appointments in Licensing DB\n(Integrated System);
     :Automated Monthly Letters – New/Terminated;
     :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
