@@ -19,7 +19,7 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **Premium Structure:** Mostly single premium policies (3 months to 10+ years terms)
 - **Agents:** Banks, credit unions, dealerships, finance companies
 
-## 🏗️ Technical Architecture (From MVP Clarification)
+## 🏗️ Technical Architecture 
 
 ### **Existing Infrastructure:**
 - **PLATEAU System:** Modern web-based operational system with modular architecture
@@ -36,7 +36,7 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **Modular Design:** Reusable components across different projects
 
 ### **Key Technical Decisions:**
-- **Framework:** C# and Blazor (confirmed by client)
+- **Framework:** C# and Blazor
 - **Authentication:** Okta with two-factor authentication
 - **Database:** Microsoft SQL Server (existing)
 - **E-Sign:** Citrix ShareFile integration (existing capability)
@@ -45,12 +45,9 @@ Agent Services is a department responsible for setting up and managing agents (f
 ## 🔄 Current Process (As-Is)
 
 ### **Process Flow Diagram:**
-![Current Process (As-Is)](current_process_as_is.png)
-*Current process with clarified exception handling (occurs after business processing) and separate Operations & Claims project*
+![Current Process (As-Is)](current_process_as_is.svg)
+*Current process with Operations & Claims as separate project, exception handling after business processing, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all Agent Services processes. Diagram shows complete workflow with parallel licensing execution and clarified process boundaries.*
 
-### **Updated Process Flow Diagram (v3):**
-![Current Process (As-Is) v3](current_process_as_is_v3.png)
-*Updated current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all Agent Services processes*
 
 ### 1. **Initiation Phase**
 - **Trigger:** Marketing Rep or General Agent submits forms
@@ -206,14 +203,11 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 ## 🎯 Target Process (To-Be)
 
 ### **Target Process Flow Diagram:**
-![Proposal Process](agent_services_proposal.png)
-*Proposal process with PLATEAU integration, Citrix ShareFile E-Sign, and clarified exception handling*
+![To-Be Process](agent_services_to_be.svg)
+*To-Be process with PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all processes, and clarified exception handling. Diagram shows complete automated workflow with 5 automation points, Operations Team verification, and optional licensing process.*
 
-### **Updated Target Process Flow Diagram (v3):**
-![Proposal Process v3](agent_services_proposal_v3.png)
-*Updated proposal process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all processes, and clarified exception handling*
 
-### **Key Improvements from MVP Clarification:**
+### **Key Improvements:**
 
 #### **1. Agent Portal Integration:**
 - **Existing Portal:** Leverage current customer-facing portal with Okta 2FA
@@ -232,7 +226,7 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 - **Document Storage:** Integrated document management
 
 #### **4. Parallel Process Optimization:**
-- **Licensing Timing:** Licensing starts RIGHT BELOW Senior Officer approval (Eric's exact words: "licensing or right below the senior officer")
+- **Licensing Timing:** Licensing starts RIGHT BELOW Senior Officer approval
 - **Parallel Execution:** Licensing works in parallel with ALL Agent Services processes (document preparation, E-Sign, system setup)
 - **Independence:** Licensing system and Agent Services processes are not integrated, allowing parallel execution
 - **Critical Order:** All processes (including licensing) must complete BEFORE Platform Integration (agent must be licensed before they can start working)
@@ -242,9 +236,144 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 - **Separate Project:** Operations & Claims is independent of Agent Services setup
 - **Focused Scope:** Agent Services focuses on setup and onboarding only
 
+### **Automation Points (5 Total):**
+
+#### **AUTOMATION #1: Form Validation & Data Entry**
+- **Current:** Manual form filling and data entry
+- **Target:** Real-time validation, auto-population, error checking
+- **Technology:** C# validation rules, database integration
+
+#### **AUTOMATION #2: Operations Team Verification**
+- **Current:** Manual commission verification against General Agent Agreement
+- **Target:** Automated web interface for Operations Team review
+- **Technology:** Web-based verification system with approval workflow
+
+#### **AUTOMATION #3: Document Generation**
+- **Current:** Manual PDF creation and email sending
+- **Target:** Automated document generation and distribution
+- **Technology:** Template-based document generation, automated email system
+
+#### **AUTOMATION #4: E-Signature Process**
+- **Current:** Manual signature collection and tracking
+- **Target:** Automated E-Sign workflow with Citrix ShareFile
+- **Technology:** Citrix ShareFile integration, automated reminders
+
+#### **AUTOMATION #5: System Integration**
+- **Current:** Manual platform integration and testing
+- **Target:** Automated integration with existing systems
+- **Technology:** API integration, automated testing, system validation
+
+## 🏗️ System Architecture
+
+### **Technical Architecture Diagram:**
+![System Architecture](symfa_system_architecture.png)
+*High-level system architecture showing complete infrastructure with API Gateway, Core System (C#/Blazor), and external integrations*
+
+### **Architecture Components:**
+
+#### **🌐 External Layer - Agent Portal**
+**Purpose:** Digital interface for agents to submit applications and track status
+- **Digital Form Interface:** Web forms with real-time validation (replaces PDF forms)
+- **Document Upload:** Secure document submission capabilities
+- **Application Status:** Real-time tracking of application progress
+- **Agent Dashboard:** Centralized view for agents to manage submissions
+
+**Key Benefits:**
+- Eliminates endless email back-and-forth
+- 5-minute form completion vs. hours of manual process
+- Automatic data validation and duplicate detection
+- Auto-population for returning clients
+
+#### **🔒 Security Layer - API Gateway**
+**Purpose:** Secure entry point protecting internal systems from external threats
+- **Authentication & Authorization:** Two-factor authentication with Okta
+- **Security & Rate Limiting:** DMZ separation (leverages existing infrastructure)
+- **Request Routing:** Intelligent routing and load balancing
+- **API Requests Processing:** Centralized API management
+
+**Security Features:**
+- Behind firewalls and application firewalls
+- Full DMZ separation between external and internal systems
+- Rate limiting to prevent DDoS attacks
+- Secure communication protocols
+
+#### **⚙️ Core System (C#/Blazor)**
+**Purpose:** Main business logic and processing engine
+- **Data Validation & Verification:** Comprehensive data validation rules
+- **Entity Creation:** Automated agent record creation
+- **Agent Setup:** Complete agent onboarding process
+- **Plan Code Management:** State-specific plan configuration
+- **Configuration Management:** System-wide configuration control
+- **Bulk Operations:** Mass processing capabilities
+
+**Technical Stack:**
+- **Framework:** C# and Blazor
+- **Database:** Microsoft SQL Server (existing infrastructure)
+- **Architecture:** Modular design with reusable components
+- **Integration:** Seamless integration with existing PLATEAU system
+
+#### **👥 Operations Layer - Operations Portal**
+**Purpose:** Internal management interface for operations team
+- **Agent Management:** Complete agent lifecycle management
+- **Senior Officer Access:** High-level approval and oversight
+- **Multi-Document Workflow:** Streamlined document processing
+- **Verification & Approval:** Role-based approval workflows
+
+**User Roles:**
+- **Agent Manager:** Day-to-day agent operations
+- **Senior Officer:** Final approvals and oversight
+- **Licensing Manager:** Licensing process management
+- **Role-Based Access:** Each user sees only relevant information
+
+#### **🗄️ Data Layer - Database Operations**
+**Purpose:** Secure data storage and management
+- **Audit Trail Logging:** Complete audit trail of all changes
+- **Data Validation:** Database-level validation rules
+- **Notification Service:** Automated notification system
+- **Database Interaction Layer:** Secure database access
+
+**Database Structure:**
+- **Existing Tables:** EntityMaster, AgentSetupDirect, MasterCredit, ValuesCredit
+- **Maintained Relationships:** Preserves current table relationships
+- **Automated Operations:** C# code handles all database operations
+- **Complete Audit:** Every change tracked and logged
+
+#### **🔌 External Services Integration**
+**Purpose:** Integration with existing enterprise services
+- **Email Service Provider:** Automated email notifications
+- **eSign Service (Citrix ShareFile):** Electronic signature capabilities
+- **Document Storage Service:** Secure document management
+- **Template Management:** Automated document generation
+
+**Integration Benefits:**
+- **Citrix ShareFile:** Leverages existing E-Sign capabilities
+- **Email Automation:** Reduces manual communication
+- **Document Storage:** Centralized document management
+- **Template System:** Automated document generation
+
+### **Key Architectural Decisions:**
+
+#### **1. Modular Integration Approach:**
+- **PLATEAU Integration:** Built as module within existing PLATEAU system
+- **UI Kit Reuse:** Leverages existing UI components and styles
+- **Consistent Technology:** C#/Blazor maintains technology consistency
+- **Maintenance Efficiency:** No need for additional developer training
+
+#### **2. Security-First Design:**
+- **DMZ Architecture:** Utilizes existing DMZ infrastructure
+- **Okta Integration:** Two-factor authentication for all users
+- **API Gateway:** Centralized security and rate limiting
+- **Role-Based Access:** Granular permission system
+
+#### **3. Scalability Considerations:**
+- **Modular Architecture:** Easy to extend and modify
+- **Reusable Components:** Reduces development time
+- **Database Optimization:** Efficient data operations
+- **External Service Integration:** Flexible service integration
+
 ## 🎯 Project Goals (To-Be) 
 
-### **Primary Objectives (From Internal Sync):**
+### **Primary Objectives:**
 1. **Eliminate Manual Excel Copy-Paste:** Replace Terry's manual Ctrl-C, Ctrl-V operations with automated C# operations
 2. **Automate Complex Table Relationships:** Handle EntityMaster → AgentSetupDirect → MasterCredit → ValuesCredit relationships automatically
 3. **Add Comprehensive Audit Logging:** Track all changes at EntityMaster level (agreed approach by team)
@@ -269,4 +398,4 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 
 ---
 
-*Document created based on analysis of project transcripts, stakeholder interviews, and PLATEAU system screenshots*
+

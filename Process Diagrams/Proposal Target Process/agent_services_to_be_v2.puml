@@ -1,7 +1,24 @@
 @startuml
-title Agent Services - Proposal Process v3
+!theme plain
+title Agent Services - To-Be Process v2
 
-skinparam dpi 150
+!define RECTANGLE class
+skinparam dpi 200
+skinparam maxMessageSize 300
+skinparam maxBoxWidth 300
+skinparam wrapWidth 300
+skinparam minClassWidth 100
+skinparam minClassHeight 50
+skinparam activityDiamondBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activity {
+  FontSize 12
+  FontName Arial
+}
+skinparam note {
+  FontSize 11
+  FontName Arial
+}
 skinparam activity {
   BackgroundColor White
   BorderColor Black
@@ -188,13 +205,7 @@ endif
 
 end fork
 
-' -------------------- PLATFORM INTEGRATION (AFTER LICENSING COMPLETE) --------------------
 partition "Platform Integration" {
-  note right
-    Platform Integration happens AFTER
-    licensing is complete (agent must be
-    licensed before they can start working)
-  end note
   if ("Certificate available?") then (YES)
     :Request Certificate from Platform;
   else (NO)
@@ -207,10 +218,6 @@ partition "Platform Integration" {
   :Enable forms and rates on platform;
 }
 
-note right
-  Operations & Claims is a SEPARATE PROJECT
-  (not part of Agent Services setup)
-end note
 
 ' -------------------- EXCEPTION HANDLING (AFTER BUSINESS PROCESSING) --------------------
 partition "Exception Handling" {

@@ -1,6 +1,20 @@
 @startuml
-title Agent Setup & Platform Integration — Parallel Exception Handling & Filing Flow
+!theme plain
+title Agent Setup & Platform Integration — Current Process (As-Is)
 
+!define RECTANGLE class
+skinparam dpi 300
+skinparam maxMessageSize 200
+skinparam maxBoxWidth 200
+skinparam wrapWidth 200
+skinparam activity {
+  FontSize 12
+  FontName Arial
+}
+skinparam note {
+  FontSize 11
+  FontName Arial
+}
 skinparam activity {
   BackgroundColor White
   BarColor #222
@@ -37,6 +51,9 @@ partition "Senior Officer" {
   endif
 }
 
+' -------------------- PARALLEL PROCESSES STARTING RIGHT AFTER SENIOR OFFICER APPROVAL --------------------
+fork
+
 partition "Agent Services" {
   :Prepare/Update Master Policies;
   :Prepare/Update Producer Agreement;
@@ -61,34 +78,7 @@ partition "Agent Services" {
     :Prepare / execute Retro agreements;
   else (NO)
   endif
-}
 
-partition "Licensing" {
-  :Maintain Appointments in Licensing DB;
-  :Monthly Letters – New/Terminated;
-  :Annual Letters (Jan);
-  note right
-    PAIN POINT: Manual Licensing Letters
-    • Thousands of letters per year
-    • Manual printing and mailing
-    • Outdated email addresses
-    • Heavy manual work in January
-    • Significant printing costs
-  end note
-}
-
-partition "Platform Integration" {
-  if ("Certificate available?") then (YES)
-    :Request Certificate from Platform;
-  else (NO)
-    :Program Certificate;
-  endif
-
-  :Create Worksheets and/or Questionnaires;
-  :Perform Testing to Verify\nCalculations & Population;
-}
-
-partition "Agent Services" {
   :Wait for First Monthly Report\n(arrears, 3–5 day recession);
   if ("First report received?") then (YES)
     :Complete Agent Setup;
@@ -105,50 +95,74 @@ partition "Agent Services" {
   endif
 }
 
-partition "Operations & Claims" {
-  :Process Business under Configured Plans;
-}
-
-' -------------------- PARALLEL START --------------------
-fork
-
-  partition "Exceptions Handling" {
-    if ("Commission mismatch?\nPlan mismatch?") then (YES)
-      :Review originals;
-      :Correct contracts;
-      :Resend for signatures;
-    else (NO)
-      :Proceed;
-    endif
-
-    if ("Premium calculation errors?\nDocument errors?") then (YES)
-      :Review setup;
-      :Review rates/worksheets sent to agent;
-      fork
-        :Update APS to correct;
-      fork again
-        :Update with Agent to correct;
-      end fork
-    else (NO)
-      :No further action;
-    endif
-  }
-
 fork again
 
-  partition "Platform Integration (Rate Maintenance)" {
-    :Annual / Tri-Annual Rate Changes;
-    :Notification from State;
-    :Create Rate Charts;
-    if ("Filing necessary?") then (YES)
-      :Send chart to Filing Team;
-    else (NO)
-      :Send notification to all affected Agents;\nUpdate APS – Update eWinLoan;
-    endif
-  }
+partition "Licensing" {
+  :Maintain Appointments in Licensing DB;
+  :Monthly Letters – New/Terminated;
+  :Annual Letters (Jan);
+  note right
+    PAIN POINT: Manual Licensing Letters
+    • Thousands of letters per year
+    • Manual printing and mailing
+    • Outdated email addresses
+    • Heavy manual work in January
+    • Significant printing costs
+  end note
+}
 
 end fork
-' -------------------- PARALLEL END --------------------
+
+' -------------------- PLATFORM INTEGRATION (AFTER LICENSING COMPLETE) --------------------
+partition "Platform Integration" {
+  note right
+    Platform Integration happens AFTER
+    licensing is complete (agent must be
+    licensed before they can start working)
+  end note
+  if ("Certificate available?") then (YES)
+    :Request Certificate from Platform;
+  else (NO)
+    :Program Certificate;
+  endif
+
+  :Create Worksheets and/or Questionnaires;
+  :Perform Testing to Verify\nCalculations & Population;
+}
+
+note right
+  Operations & Claims is a SEPARATE PROJECT
+  (not part of Agent Services setup)
+end note
+
+' -------------------- EXCEPTION HANDLING (AFTER BUSINESS PROCESSING) --------------------
+partition "Exception Handling" {
+  note right
+    Exception handling occurs AFTER
+    business has been processed
+    and exceptions come in
+  end note
+  
+  if ("Commission mismatch?\nPlan mismatch?") then (YES)
+    :Review originals;
+    :Correct contracts;
+    :Resend for signatures;
+  else (NO)
+    :Proceed;
+  endif
+
+  if ("Premium calculation errors?\nDocument errors?") then (YES)
+    :Review setup;
+    :Review rates/worksheets sent to agent;
+    fork
+      :Update APS to correct;
+    fork again
+      :Update with Agent to correct;
+    end fork
+  else (NO)
+    :No further action;
+  endif
+}
 
 end
 @enduml

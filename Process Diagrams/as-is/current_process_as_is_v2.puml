@@ -1,6 +1,20 @@
 @startuml
-title Agent Setup & Platform Integration — Current Process (As-Is) v3
+!theme plain
+title Agent Setup & Platform Integration — Current Process (As-Is) v2
 
+!define RECTANGLE class
+skinparam dpi 300
+skinparam maxMessageSize 200
+skinparam maxBoxWidth 200
+skinparam wrapWidth 200
+skinparam activity {
+  FontSize 12
+  FontName Arial
+}
+skinparam note {
+  FontSize 11
+  FontName Arial
+}
 skinparam activity {
   BackgroundColor White
   BarColor #222
