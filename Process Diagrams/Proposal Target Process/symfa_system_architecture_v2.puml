@@ -1,6 +1,6 @@
 @startuml
 '!theme plain
-title Agent Services - System Architecture v2\nSymfa Implementation with API Gateway and Core System\n(Updated: Azure AD in Operations Portal, C# & Blazor, eSign Service)
+title Agent Services - System Architecture Diagram
 
 skinparam dpi 150
 skinparam componentStyle rectangle
@@ -8,11 +8,19 @@ skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam linetype ortho
 
+' Symfa Color Palette
+skinparam backgroundColor #FAFAFA
+skinparam note {
+  BackgroundColor #E3F2FD
+  BorderColor #1E88E5
+  FontColor #263238
+}
+
 ' Top level layout
 left to right direction
 
 ' ===== AGENT PORTAL =====
-package "Agent Portal" as AgentPortal #LightBlue {
+package "Agent Portal" as AgentPortal #E3F2FD {
   [Digital Form\nInterface] as FormUI
   [Document\nUpload] as DocUpload
   [Application\nStatus] as AppStatus
@@ -28,7 +36,7 @@ note top of AgentPortal
 end note
 
 ' ===== API GATEWAY =====
-package "API Gateway" as APIGw #LightPink {
+package "API Gateway" as APIGw #BBDEFB {
   [Authentication\n& Authorization] as Auth
   [Request\nRouting] as Routing
   [Rate Limiting\n& Security] as RateLimit
@@ -44,7 +52,7 @@ end note
 AgentPortal -down-> APIGw : API Requests\nAgent Portal → Agent Management
 
 ' ===== OPERATIONS PORTAL =====
-package "Operations Portal" as OpsPortal #LightYellow {
+package "Operations Portal" as OpsPortal #E0F2F1 {
   
   package "Agent Management" as AgentMgmt {
     [Entity Creation\n& Management] as EntityCreate
@@ -95,7 +103,7 @@ end note
 APIGw -down-> OpsPortal
 
 ' ===== CORE SYSTEM =====
-package "Core System (C#)" as CoreSys #LightGreen {
+package "Core System (C#)" as CoreSys #B2DFDB {
   [Database\nInteraction Layer] as DBLayer
   [Audit Trail\nLogging] as AuditLog
   [Data Validation\n& Verification] as Validation
@@ -126,7 +134,7 @@ note bottom of DB
 end note
 
 ' ===== ADDITIONAL SERVICES =====
-package "Additional Services" as ExtServices #LightPink {
+package "Additional Services" as ExtServices #FFE0B2 {
   [Email\nService] as EmailSvc
   [eSign\nService] as ESignSvc
   [Document\nStorage Service] as DocStorage
