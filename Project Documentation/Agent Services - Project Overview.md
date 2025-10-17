@@ -50,7 +50,7 @@ Agent Services is a department responsible for setting up and managing agents (f
 
 ### **Updated Process Flow Diagram (v3):**
 ![Current Process (As-Is) v3](current_process_as_is_v3.png)
-*Updated current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing, licensing works in parallel with Agent Services system setup, but both complete BEFORE Platform Integration*
+*Updated current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all Agent Services processes*
 
 ### 1. **Initiation Phase**
 - **Trigger:** Marketing Rep or General Agent submits forms
@@ -211,7 +211,7 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 
 ### **Updated Target Process Flow Diagram (v3):**
 ![Proposal Process v3](agent_services_proposal_v3.png)
-*Updated proposal process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, parallel licensing process (completes before Platform Integration), and clarified exception handling*
+*Updated proposal process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all processes, and clarified exception handling*
 
 ### **Key Improvements from MVP Clarification:**
 
@@ -232,10 +232,10 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 - **Document Storage:** Integrated document management
 
 #### **4. Parallel Process Optimization:**
-- **Licensing Parallelism:** Licensing can work in parallel with Agent Services system setup after Senior Officer approval
-- **Timing:** Both processes start after signing with agent, but can run simultaneously
-- **Independence:** Licensing system and Agent Services setup are not integrated, allowing parallel execution
-- **Critical Order:** Both licensing and system setup must complete BEFORE Platform Integration (agent must be licensed before they can start working)
+- **Licensing Timing:** Licensing starts RIGHT BELOW Senior Officer approval (Eric's exact words: "licensing or right below the senior officer")
+- **Parallel Execution:** Licensing works in parallel with ALL Agent Services processes (document preparation, E-Sign, system setup)
+- **Independence:** Licensing system and Agent Services processes are not integrated, allowing parallel execution
+- **Critical Order:** All processes (including licensing) must complete BEFORE Platform Integration (agent must be licensed before they can start working)
 
 #### **5. Clarified Exception Handling:**
 - **Timing:** Exception handling occurs AFTER business processing

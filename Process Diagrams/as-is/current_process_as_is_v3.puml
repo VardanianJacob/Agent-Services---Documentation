@@ -1,5 +1,5 @@
 @startuml
-title Agent Setup & Platform Integration — Current Process (As-Is) v3\nWith MVP Clarification Updates
+title Agent Setup & Platform Integration — Current Process (As-Is) v3
 
 skinparam activity {
   BackgroundColor White
@@ -37,6 +37,9 @@ partition "Senior Officer" {
   endif
 }
 
+' -------------------- PARALLEL PROCESSES STARTING RIGHT AFTER SENIOR OFFICER APPROVAL --------------------
+fork
+
 partition "Agent Services" {
   :Prepare/Update Master Policies;
   :Prepare/Update Producer Agreement;
@@ -56,12 +59,7 @@ partition "Agent Services" {
     :Prepare / execute Retro agreements;
   else (NO)
   endif
-}
 
-' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
-fork
-
-partition "Agent Services" {
   :Wait for First Monthly Report\n(arrears, 3–5 day recession);
   if ("First report received?") then (YES)
     :Complete Agent Setup;
@@ -80,11 +78,11 @@ partition "Agent Services" {
 
 fork again
 
-partition "Licensing (Jessica)" {
+partition "Licensing" {
   note right
-    Licensing can work in PARALLEL
-    with Agent Services system setup
-    after Senior Officer approval
+    Licensing starts RIGHT BELOW
+    Senior Officer approval
+    (Eric's clarification)
   end note
   :Maintain Appointments in Licensing DB;
   :Monthly Letters – New/Terminated;

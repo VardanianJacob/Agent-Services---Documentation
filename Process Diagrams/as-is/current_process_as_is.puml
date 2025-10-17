@@ -58,7 +58,7 @@ partition "Agent Services" {
   endif
 }
 
-partition "Licensing (Jessica)" {
+partition "Licensing" {
   :Maintain Appointments in Licensing DB;
   :Monthly Letters – New/Terminated;
   :Annual Letters (Jan);

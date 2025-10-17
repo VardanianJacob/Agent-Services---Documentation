@@ -1,5 +1,5 @@
 @startuml
-title Agent Services - Proposal Process v3\nComplete Process with PLATEAU Integration & MVP Clarification
+title Agent Services - Proposal Process v3
 
 skinparam dpi 150
 skinparam activity {
@@ -87,6 +87,9 @@ partition "Senior Officer" {
   endif
 }
 
+' -------------------- PARALLEL PROCESSES STARTING RIGHT AFTER SENIOR OFFICER APPROVAL --------------------
+fork
+
 partition "PLATEAU System (C#/Blazor)" {
   :Prepare/Update Master Policies\n(State/Product specific);
   :Prepare/Update Producer Agreement\n(State/Company variants);
@@ -109,7 +112,36 @@ partition "PLATEAU System (C#/Blazor)" {
     :Prepare / execute Retro agreements;
   else (NO)
   endif
+
+  :Create Agent in EntityMaster\n(EntityType=Agent; addresses; flags; TIN; DAT%);
+  :Status: PENDING;
+  note right
+  🚀 AUTOMATION #4
+  Automated Database Setup
+  • No manual Excel operations
+  • Hierarchical table management
+  • Bulk operations support
+  • Audit logging
+  end note
+
+  :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
+  if ("First report received?") then (YES)
+    :Complete Agent Setup;
+    :AgentSetupDirect (plans) «NEVER DELETE»;
+    :AgentSetupMasterCredit (commission, reins, risk, term, rates);
+    :AgentSetupValuesCredit (durations 0-100 via Table_Num);
+    :Optional: Copy all from old agent;
+    :Reinsurance Setups;
+    :Retro Setups;
+    :Level II Setups;
+    :Status: ACTIVE;
+  else (NO)
+    :Remain Pending;
+    :No Plan Tables Configured;
+  endif
 }
+
+fork again
 
 partition "E-Sign Integration (Citrix ShareFile)" {
   :Email agreements for signature\nvia Citrix ShareFile E-Sign;
@@ -134,48 +166,14 @@ partition "E-Sign Integration (Citrix ShareFile)" {
   end note
 }
 
-partition "PLATEAU System (C#/Blazor)" {
-  :Create Agent in EntityMaster\n(EntityType=Agent; addresses; flags; TIN; DAT%);
-  :Status: PENDING;
-  note right
-  🚀 AUTOMATION #4
-  Automated Database Setup
-  • No manual Excel operations
-  • Hierarchical table management
-  • Bulk operations support
-  • Audit logging
-  end note
-}
-
-' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
-fork
-
-partition "PLATEAU System (C#/Blazor)" {
-  :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
-  if ("First report received?") then (YES)
-    :Complete Agent Setup;
-    :AgentSetupDirect (plans) «NEVER DELETE»;
-    :AgentSetupMasterCredit (commission, reins, risk, term, rates);
-    :AgentSetupValuesCredit (durations 0-100 via Table_Num);
-    :Optional: Copy all from old agent;
-    :Reinsurance Setups;
-    :Retro Setups;
-    :Level II Setups;
-    :Status: ACTIVE;
-  else (NO)
-    :Remain Pending;
-    :No Plan Tables Configured;
-  endif
-}
-
 fork again
 
 if ("Licensing required?") then (Yes)
   partition "Licensing" {
     note right
-      Licensing can work in PARALLEL
-      with Agent Services system setup
-      after Senior Officer approval
+      Licensing starts RIGHT BELOW
+      Senior Officer approval
+      (Eric's clarification)
     end note
     :Maintain Appointments in Licensing DB\n(Integrated System);
     :Automated Monthly Letters – New/Terminated;

@@ -52,7 +52,7 @@ partition "Agent Services" {
   end note
 }
 
-partition "Licensing (Jessica)" {
+partition "Licensing" {
   :Maintain appointments in Licensing DB (Access);
   :Monthly letters: new/terminated;
   :Annual letters (Jan): roster cleanup to avoid fees\n(often paper due to stale emails);
