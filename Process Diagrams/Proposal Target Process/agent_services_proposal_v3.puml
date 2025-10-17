@@ -147,24 +147,6 @@ partition "PLATEAU System (C#/Blazor)" {
   end note
 }
 
-if ("Licensing required?") then (Yes)
-  partition "Licensing" {
-    :Maintain Appointments in Licensing DB\n(Integrated System);
-    :Automated Monthly Letters – New/Terminated;
-    :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
-    note right
-    🚀 AUTOMATION #5
-    Licensing Integration
-    • Automated letter generation
-    • Email validation and tracking
-    • Reduced manual printing/mailing
-    • Integrated appointment management
-    end note
-  }
-else (No)
-  :Skip licensing process;
-endif
-
 partition "Platform Integration" {
   if ("Certificate available?") then (YES)
     :Request Certificate from Platform;
@@ -177,6 +159,9 @@ partition "Platform Integration" {
   :Send worksheet and release forms\nto loan platform provider;
   :Enable forms and rates on platform;
 }
+
+' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
+fork
 
 partition "PLATEAU System (C#/Blazor)" {
   :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
@@ -195,6 +180,33 @@ partition "PLATEAU System (C#/Blazor)" {
     :No Plan Tables Configured;
   endif
 }
+
+fork again
+
+if ("Licensing required?") then (Yes)
+  partition "Licensing" {
+    note right
+      Licensing can work in PARALLEL
+      with Agent Services system setup
+      after Senior Officer approval
+    end note
+    :Maintain Appointments in Licensing DB\n(Integrated System);
+    :Automated Monthly Letters – New/Terminated;
+    :Automated Annual Letters (Jan): roster cleanup\nwith email validation and delivery tracking;
+    note right
+    🚀 AUTOMATION #5
+    Licensing Integration
+    • Automated letter generation
+    • Email validation and tracking
+    • Reduced manual printing/mailing
+    • Integrated appointment management
+    end note
+  }
+else (No)
+  :Skip licensing process;
+endif
+
+end fork
 
 note right
   Operations & Claims is a SEPARATE PROJECT

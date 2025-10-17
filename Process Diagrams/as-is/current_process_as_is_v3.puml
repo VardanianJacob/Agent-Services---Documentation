@@ -58,15 +58,6 @@ partition "Agent Services" {
   endif
 }
 
-partition "Licensing (Jessica)" {
-  :Maintain Appointments in Licensing DB;
-  :Monthly Letters – New/Terminated;
-  :Annual Letters (Jan);
-  note right
-    PAIN POINT
-  end note
-}
-
 partition "Platform Integration" {
   if ("Certificate available?") then (YES)
     :Request Certificate from Platform;
@@ -77,6 +68,9 @@ partition "Platform Integration" {
   :Create Worksheets and/or Questionnaires;
   :Perform Testing to Verify\nCalculations & Population;
 }
+
+' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
+fork
 
 partition "Agent Services" {
   :Wait for First Monthly Report\n(arrears, 3–5 day recession);
@@ -94,6 +88,24 @@ partition "Agent Services" {
     :No Plan Tables Configured;
   endif
 }
+
+fork again
+
+partition "Licensing (Jessica)" {
+  note right
+    Licensing can work in PARALLEL
+    with Agent Services system setup
+    after Senior Officer approval
+  end note
+  :Maintain Appointments in Licensing DB;
+  :Monthly Letters – New/Terminated;
+  :Annual Letters (Jan);
+  note right
+    PAIN POINT
+  end note
+}
+
+end fork
 
 note right
   Operations & Claims is a SEPARATE PROJECT
