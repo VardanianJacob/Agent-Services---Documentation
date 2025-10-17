@@ -19,7 +19,7 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **Premium Structure:** Mostly single premium policies (3 months to 10+ years terms)
 - **Agents:** Banks, credit unions, dealerships, finance companies
 
-## 🏗️ Technical Architecture (From MVP Clarification)
+## 🏗️ Technical Architecture 
 
 ### **Existing Infrastructure:**
 - **PLATEAU System:** Modern web-based operational system with modular architecture
@@ -42,15 +42,13 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **E-Sign:** Citrix ShareFile integration (existing capability)
 - **API Security:** Internal APIs with DMZ protection
 
+
 ## 🔄 Current Process (As-Is)
 
 ### **Process Flow Diagram:**
-![Current Process (As-Is)](current_process_as_is.png)
-*Current process with clarified exception handling (occurs after business processing) and separate Operations & Claims project*
+![Current Process (As-Is)](current_process_as_is.svg)
+*Current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all Agent Services processes. Diagram shows complete workflow with parallel licensing execution and clarified process boundaries.*
 
-### **Updated Process Flow Diagram (v3):**
-![Current Process (As-Is) v3](current_process_as_is_v3.png)
-*Updated current process incorporating MVP clarification feedback from Eric - Operations & Claims as separate project, exception handling after business processing, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all Agent Services processes*
 
 ### 1. **Initiation Phase**
 - **Trigger:** Marketing Rep or General Agent submits forms
@@ -206,12 +204,9 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 ## 🎯 Target Process (To-Be)
 
 ### **Target Process Flow Diagram:**
-![Proposal Process](agent_services_proposal.png)
-*Proposal process with PLATEAU integration, Citrix ShareFile E-Sign, and clarified exception handling*
+![To-Be Process](agent_services_to_be.svg)
+*To-Be process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all processes, and clarified exception handling. Diagram shows complete automated workflow with 5 automation points, Operations Team verification, and optional licensing process.*
 
-### **Updated Target Process Flow Diagram (v3):**
-![Proposal Process v3](agent_services_proposal_v3.png)
-*Updated proposal process incorporating MVP clarification - PLATEAU System (C#/Blazor), Agent Portal with Okta 2FA, Citrix ShareFile E-Sign, licensing starts RIGHT BELOW Senior Officer approval and works in parallel with all processes, and clarified exception handling*
 
 ### **Key Improvements from MVP Clarification:**
 
@@ -242,6 +237,33 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 - **Separate Project:** Operations & Claims is independent of Agent Services setup
 - **Focused Scope:** Agent Services focuses on setup and onboarding only
 
+### **Automation Points (5 Total):**
+
+#### **AUTOMATION #1: Form Validation & Data Entry**
+- **Current:** Manual form filling and data entry
+- **Target:** Real-time validation, auto-population, error checking
+- **Technology:** C# validation rules, database integration
+
+#### **AUTOMATION #2: Operations Team Verification**
+- **Current:** Manual commission verification against General Agent Agreement
+- **Target:** Automated web interface for Operations Team review
+- **Technology:** Web-based verification system with approval workflow
+
+#### **AUTOMATION #3: Document Generation**
+- **Current:** Manual PDF creation and email sending
+- **Target:** Automated document generation and distribution
+- **Technology:** Template-based document generation, automated email system
+
+#### **AUTOMATION #4: E-Signature Process**
+- **Current:** Manual signature collection and tracking
+- **Target:** Automated E-Sign workflow with Citrix ShareFile
+- **Technology:** Citrix ShareFile integration, automated reminders
+
+#### **AUTOMATION #5: System Integration**
+- **Current:** Manual platform integration and testing
+- **Target:** Automated integration with existing systems
+- **Technology:** API integration, automated testing, system validation
+
 ## 🎯 Project Goals (To-Be) 
 
 ### **Primary Objectives (From Internal Sync):**
@@ -269,4 +291,4 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 
 ---
 
-*Document created based on analysis of project transcripts, stakeholder interviews, and PLATEAU system screenshots*
+

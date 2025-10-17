@@ -1,7 +1,24 @@
 @startuml
-title Agent Services - Proposal Process v2\nComplete Process with Automation & Pain Point Solutions
+!theme plain
+title Agent Services - To-Be Process
 
-skinparam dpi 150
+!define RECTANGLE class
+skinparam dpi 200
+skinparam maxMessageSize 300
+skinparam maxBoxWidth 300
+skinparam wrapWidth 300
+skinparam minClassWidth 100
+skinparam minClassHeight 50
+skinparam activityDiamondBackgroundColor #FFFFFF
+skinparam activityDiamondBorderColor #000000
+skinparam activity {
+  FontSize 12
+  FontName Arial
+}
+skinparam note {
+  FontSize 11
+  FontName Arial
+}
 skinparam activity {
   BackgroundColor White
   BorderColor Black
@@ -87,7 +104,10 @@ partition "Senior Officer" {
   endif
 }
 
-partition "Agent Services System" {
+' -------------------- PARALLEL PROCESSES STARTING RIGHT AFTER SENIOR OFFICER APPROVAL --------------------
+fork
+
+partition "PLATEAU System (C#/Blazor)" {
   :Prepare/Update Master Policies\n(State/Product specific);
   :Prepare/Update Producer Agreement\n(State/Company variants);
   :Auto-generate documents with agent data pre-filled;
@@ -109,7 +129,36 @@ partition "Agent Services System" {
     :Prepare / execute Retro agreements;
   else (NO)
   endif
+
+  :Create Agent in EntityMaster\n(EntityType=Agent; addresses; flags; TIN; DAT%);
+  :Status: PENDING;
+  note right
+  🚀 AUTOMATION #4
+  Automated Database Setup
+  • No manual Excel operations
+  • Hierarchical table management
+  • Bulk operations support
+  • Audit logging
+  end note
+
+  :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
+  if ("First report received?") then (YES)
+    :Complete Agent Setup;
+    :AgentSetupDirect (plans) «NEVER DELETE»;
+    :AgentSetupMasterCredit (commission, reins, risk, term, rates);
+    :AgentSetupValuesCredit (durations 0-100 via Table_Num);
+    :Optional: Copy all from old agent;
+    :Reinsurance Setups;
+    :Retro Setups;
+    :Level II Setups;
+    :Status: ACTIVE;
+  else (NO)
+    :Remain Pending;
+    :No Plan Tables Configured;
+  endif
 }
+
+fork again
 
 partition "E-Sign Integration (Citrix ShareFile)" {
   :Email agreements for signature\nvia Citrix ShareFile E-Sign;
@@ -134,18 +183,7 @@ partition "E-Sign Integration (Citrix ShareFile)" {
   end note
 }
 
-partition "Agent Services System" {
-  :Create Agent in EntityMaster\n(EntityType=Agent; addresses; flags; TIN; DAT%);
-  :Status: PENDING;
-  note right
-  🚀 AUTOMATION #4
-  Automated Database Setup
-  • No manual Excel operations
-  • Hierarchical table management
-  • Bulk operations support
-  • Audit logging
-  end note
-}
+fork again
 
 if ("Licensing required?") then (Yes)
   partition "Licensing" {
@@ -165,6 +203,8 @@ else (No)
   :Skip licensing process;
 endif
 
+end fork
+
 partition "Platform Integration" {
   if ("Certificate available?") then (YES)
     :Request Certificate from Platform;
@@ -178,28 +218,6 @@ partition "Platform Integration" {
   :Enable forms and rates on platform;
 }
 
-partition "Agent Services System" {
-  :Wait for First Monthly Report\n(arrears, 3–5 day rescission);
-  if ("First report received?") then (YES)
-    :Complete Agent Setup;
-    :AgentSetupDirect (plans) «NEVER DELETE»;
-    :AgentSetupMasterCredit (commission, reins, risk, term, rates);
-    :AgentSetupValuesCredit (durations 0-100 via Table_Num);
-    :Optional: Copy all from old agent;
-    :Reinsurance Setups;
-    :Retro Setups;
-    :Level II Setups;
-    :Status: ACTIVE;
-  else (NO)
-    :Remain Pending;
-    :No Plan Tables Configured;
-  endif
-}
-
-note right
-  Operations & Claims is a SEPARATE PROJECT
-  (not part of Agent Services setup)
-end note
 
 ' -------------------- EXCEPTION HANDLING (AFTER BUSINESS PROCESSING) --------------------
 partition "Exception Handling" {
@@ -230,7 +248,5 @@ partition "Exception Handling" {
   endif
 }
 
-
 end
-
 @enduml
