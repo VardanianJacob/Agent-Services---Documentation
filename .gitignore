@@ -48,3 +48,4 @@ build/
 .env.test.local
 .env.production.local
 *.sh
+time_tracking.md

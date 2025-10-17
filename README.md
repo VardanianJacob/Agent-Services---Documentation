@@ -1,14 +1,14 @@
 # Agent Services Project
 
-Agent management system automation project for insurance company. Replacing legacy Microsoft Access system with modern web interface.
+Agent management system automation project for insurance company. Replacing legacy Microsoft Access system with modern web interface integrated into PLATEAU system.
 
 ## 📋 Project Description
 
 **Objective:** Replace outdated Microsoft Access system with modern web interface for agent management and setup.
 
-**Current Status:** Discovery phase - requirements analysis and documentation creation.
+**Current Status:** MVP Scope Clarification Complete - ready for development phase.
 
-**Technology Stack:** HTML + C# (.NET) with Active Directory integration.
+**Technology Stack:** C# + Blazor (PLATEAU Integration) with Okta 2FA authentication.
 
 ## 🏗 Project Structure
 
