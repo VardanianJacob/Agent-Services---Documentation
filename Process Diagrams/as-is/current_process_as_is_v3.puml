@@ -58,17 +58,6 @@ partition "Agent Services" {
   endif
 }
 
-partition "Platform Integration" {
-  if ("Certificate available?") then (YES)
-    :Request Certificate from Platform;
-  else (NO)
-    :Program Certificate;
-  endif
-
-  :Create Worksheets and/or Questionnaires;
-  :Perform Testing to Verify\nCalculations & Population;
-}
-
 ' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
 fork
 
@@ -106,6 +95,23 @@ partition "Licensing (Jessica)" {
 }
 
 end fork
+
+' -------------------- PLATFORM INTEGRATION (AFTER LICENSING COMPLETE) --------------------
+partition "Platform Integration" {
+  note right
+    Platform Integration happens AFTER
+    licensing is complete (agent must be
+    licensed before they can start working)
+  end note
+  if ("Certificate available?") then (YES)
+    :Request Certificate from Platform;
+  else (NO)
+    :Program Certificate;
+  endif
+
+  :Create Worksheets and/or Questionnaires;
+  :Perform Testing to Verify\nCalculations & Population;
+}
 
 note right
   Operations & Claims is a SEPARATE PROJECT

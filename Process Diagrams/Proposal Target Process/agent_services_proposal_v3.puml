@@ -147,19 +147,6 @@ partition "PLATEAU System (C#/Blazor)" {
   end note
 }
 
-partition "Platform Integration" {
-  if ("Certificate available?") then (YES)
-    :Request Certificate from Platform;
-  else (NO)
-    :Program Certificate;
-  endif
-
-  :Create Worksheets and/or Questionnaires;
-  :Perform Testing to Verify\nCalculations & Population;
-  :Send worksheet and release forms\nto loan platform provider;
-  :Enable forms and rates on platform;
-}
-
 ' -------------------- PARALLEL PROCESSES AFTER SENIOR OFFICER APPROVAL --------------------
 fork
 
@@ -207,6 +194,25 @@ else (No)
 endif
 
 end fork
+
+' -------------------- PLATFORM INTEGRATION (AFTER LICENSING COMPLETE) --------------------
+partition "Platform Integration" {
+  note right
+    Platform Integration happens AFTER
+    licensing is complete (agent must be
+    licensed before they can start working)
+  end note
+  if ("Certificate available?") then (YES)
+    :Request Certificate from Platform;
+  else (NO)
+    :Program Certificate;
+  endif
+
+  :Create Worksheets and/or Questionnaires;
+  :Perform Testing to Verify\nCalculations & Population;
+  :Send worksheet and release forms\nto loan platform provider;
+  :Enable forms and rates on platform;
+}
 
 note right
   Operations & Claims is a SEPARATE PROJECT
