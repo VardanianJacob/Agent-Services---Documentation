@@ -21,7 +21,7 @@ skinparam shadowing false
 
 start
 
-partition "Marketing / General Agent" {
+partition "Agent Portal (Existing)" {
   fork
     :Fill NEW ACCOUNT SETUP\n(Web Form with validation);
     note right
@@ -32,14 +32,15 @@ partition "Marketing / General Agent" {
     • Automatic data capture
     • Document attachments
     • Pre-filled for returning agents
+    • Behind Okta 2FA authentication
     end note
   fork again
     :Fill AGENT CHANGE REQUEST\n(Web Form with validation);
   end fork
-  :Submit to Agent Services System;
+  :Submit to Agent Services System\n(via API Gateway/DMZ);
 }
 
-partition "Agent Services System" {
+partition "PLATEAU System (C#/Blazor)" {
   :Intake & Review Forms\n(Web Interface);
   :System creates agent entity\nStatus: CREATED;
   :Automatic validation checks:\n- Duplicate TIN detection\n- Required fields verification\n- Document completeness;
@@ -52,6 +53,13 @@ partition "Agent Services System" {
     :Agent updates form and resubmits;
     :Status: CREATED;
   endif
+  note right
+    Built as PLATEAU module
+    • C# and Blazor framework
+    • Microsoft SQL backend
+    • Modular architecture
+    • Reusable components
+    end note
 }
 
 partition "Operations Team" {
@@ -103,8 +111,8 @@ partition "Agent Services System" {
   endif
 }
 
-partition "E-Sign Integration" {
-  :Email agreements for signature\nvia E-Sign platform (DocuSign/PandaDoc);
+partition "E-Sign Integration (Citrix ShareFile)" {
+  :Email agreements for signature\nvia Citrix ShareFile E-Sign;
   :Status: WAITING_FOR_SIGNATURE;
   :Track signature status:\n- Document opened\n- Signature completed\n- All parties signed;
   if ("All signatures completed?") then (Yes)
@@ -118,6 +126,7 @@ partition "E-Sign Integration" {
   note right
   🚀 AUTOMATION #3
   E-Sign Integration
+  • Citrix ShareFile with E-Sign capabilities
   • Automated signature tracking
   • Reminder notifications
   • Document storage
@@ -187,50 +196,39 @@ partition "Agent Services System" {
   endif
 }
 
-partition "Operations & Claims" {
-  :Process Business under Configured Plans;
+note right
+  Operations & Claims is a SEPARATE PROJECT
+  (not part of Agent Services setup)
+end note
+
+' -------------------- EXCEPTION HANDLING (AFTER BUSINESS PROCESSING) --------------------
+partition "Exception Handling" {
+  note right
+    Exception handling occurs AFTER
+    business has been processed
+    and exceptions come in
+  end note
+  
+  if ("Commission mismatch?\nPlan mismatch?") then (YES)
+    :Review originals;
+    :Correct contracts;
+    :Resend for signatures;
+  else (NO)
+    :Proceed;
+  endif
+
+  if ("Premium calculation errors?\nDocument errors?") then (YES)
+    :Review setup;
+    :Review rates/worksheets sent to agent;
+    fork
+      :Update APS to correct;
+    fork again
+      :Update with Agent to correct;
+    end fork
+  else (NO)
+    :No further action;
+  endif
 }
-
-' -------------------- PARALLEL START --------------------
-fork
-
-  partition "Exceptions Handling" {
-    if ("Commission mismatch?\nPlan mismatch?") then (YES)
-      :Review originals;
-      :Correct contracts;
-      :Resend for signatures;
-    else (NO)
-      :Proceed;
-    endif
-
-    if ("Premium calculation errors?\nDocument errors?") then (YES)
-      :Review setup;
-      :Review rates/worksheets sent to agent;
-      fork
-        :Update APS to correct;
-      fork again
-        :Update with Agent to correct;
-      end fork
-    else (NO)
-      :No further action;
-    endif
-  }
-
-fork again
-
-  partition "Platform Integration (Rate Maintenance)" {
-    :Annual / Tri-Annual Rate Changes;
-    :Notification from State;
-    :Create Rate Charts;
-    if ("Filing necessary?") then (YES)
-      :Send chart to Filing Team;
-    else (NO)
-      :Send notification to all affected Agents;\nUpdate APS – Update eWinLoan;
-    endif
-  }
-
-end fork
-' -------------------- PARALLEL END --------------------
 
 
 end

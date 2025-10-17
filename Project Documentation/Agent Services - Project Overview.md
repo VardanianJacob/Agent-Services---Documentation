@@ -4,8 +4,9 @@
 
 **Project Name:** Agent Services Automation  
 **Objective:** Replace legacy Microsoft Access system with modern web interface for agent management and setup processes  
-**Current Status:** Discovery Phase  
-**Technology Stack:** HTML + C# (.NET)  
+**Current Status:** MVP Scope Clarification Complete  
+**Technology Stack:** C# + Blazor (PLATEAU Integration)  
+**Timeline:** Q1 2025 (2.5-3 months)  
 
 ## 🏢 Business Context
 
@@ -18,11 +19,34 @@ Agent Services is a department responsible for setting up and managing agents (f
 - **Premium Structure:** Mostly single premium policies (3 months to 10+ years terms)
 - **Agents:** Banks, credit unions, dealerships, finance companies
 
+## 🏗️ Technical Architecture (From MVP Clarification)
+
+### **Existing Infrastructure:**
+- **PLATEAU System:** Modern web-based operational system with modular architecture
+- **Technology Stack:** C# and Blazor framework with Microsoft SQL backend
+- **Agent Portal:** Existing customer-facing portal with Okta 2FA authentication
+- **Security:** DMZ separation, API Gateway, application firewalls
+- **Document Management:** Citrix ShareFile with E-Sign capabilities
+
+### **Integration Approach:**
+- **Not Greenfield:** Agent Services will be built as a new module within existing PLATEAU system
+- **Code Consistency:** Maintain C# and Blazor for maintenance purposes
+- **UI Kit:** Leverage existing PLATEAU components and styling
+- **Role-Based Access:** Individual user roles managed through Okta SSO
+- **Modular Design:** Reusable components across different projects
+
+### **Key Technical Decisions:**
+- **Framework:** C# and Blazor (confirmed by client)
+- **Authentication:** Okta with two-factor authentication
+- **Database:** Microsoft SQL Server (existing)
+- **E-Sign:** Citrix ShareFile integration (existing capability)
+- **API Security:** Internal APIs with DMZ protection
+
 ## 🔄 Current Process (As-Is)
 
 ### **Process Flow Diagram:**
 ![Current Process (As-Is)](current_process_as_is.png)
-*Complete current process including parallel exception handling, platform integration, and filing flow*
+*Current process with clarified exception handling (occurs after business processing) and separate Operations & Claims project*
 
 ### 1. **Initiation Phase**
 - **Trigger:** Marketing Rep or General Agent submits forms
@@ -78,10 +102,11 @@ Agent Services is a department responsible for setting up and managing agents (f
   - Optional: Copy plans from existing agent
 
 ### 8. **Operations & Exception Handling**
-- **Operations & Claims:** Process business under configured plans
-- **Exception Handling:** Handle commission mismatches in first report
+- **Operations & Claims:** Process business under configured plans (SEPARATE PROJECT)
+- **Exception Handling:** Handle commission mismatches AFTER business processing
   - Review originals
   - Correct contracts and re-send for signatures
+  - Note: Exception handling occurs after business has been processed and exceptions come in
 
 ### 9. **Additional Process Elements**
 - **Agent Change Requests:** Handle modifications to existing agent setups
@@ -173,6 +198,35 @@ PLATEAU (Web System) ←→ Access (Legacy Agent Services)
 - No automated workflows
 - Legacy VBA code mixed with SQL stored procedures
 - **Disconnected from PLATEAU:** Agent Services runs separately from main system
+
+## 🎯 Target Process (To-Be)
+
+### **Target Process Flow Diagram:**
+![Proposal Process](agent_services_proposal.png)
+*Proposal process with PLATEAU integration, Citrix ShareFile E-Sign, and clarified exception handling*
+
+### **Key Improvements from MVP Clarification:**
+
+#### **1. Agent Portal Integration:**
+- **Existing Portal:** Leverage current customer-facing portal with Okta 2FA
+- **Web Forms:** Replace PDF forms with real-time validation
+- **API Gateway:** Secure communication via DMZ and API Gateway
+
+#### **2. PLATEAU System Integration:**
+- **C# and Blazor:** Built as module within existing PLATEAU system
+- **Microsoft SQL:** Direct integration with existing database
+- **Modular Architecture:** Reusable components and UI Kit approach
+- **Role-Based Access:** Individual user roles through Okta SSO
+
+#### **3. Enhanced E-Sign Process:**
+- **Citrix ShareFile:** Leverage existing E-Sign capabilities
+- **Automated Tracking:** Signature status monitoring and reminders
+- **Document Storage:** Integrated document management
+
+#### **4. Clarified Exception Handling:**
+- **Timing:** Exception handling occurs AFTER business processing
+- **Separate Project:** Operations & Claims is independent of Agent Services setup
+- **Focused Scope:** Agent Services focuses on setup and onboarding only
 
 ## 🎯 Project Goals (To-Be) 
 

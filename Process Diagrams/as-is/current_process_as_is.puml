@@ -95,50 +95,38 @@ partition "Agent Services" {
   endif
 }
 
-partition "Operations & Claims" {
-  :Process Business under Configured Plans;
+note right
+  Operations & Claims is a SEPARATE PROJECT
+  (not part of Agent Services setup)
+end note
+
+' -------------------- EXCEPTION HANDLING (AFTER BUSINESS PROCESSING) --------------------
+partition "Exception Handling" {
+  note right
+    Exception handling occurs AFTER
+    business has been processed
+  end note
+  
+  if ("Commission mismatch?\nPlan mismatch?") then (YES)
+    :Review originals;
+    :Correct contracts;
+    :Resend for signatures;
+  else (NO)
+    :Proceed;
+  endif
+
+  if ("Premium calculation errors?\nDocument errors?") then (YES)
+    :Review setup;
+    :Review rates/worksheets sent to agent;
+    fork
+      :Update APS to correct;
+    fork again
+      :Update with Agent to correct;
+    end fork
+  else (NO)
+    :No further action;
+  endif
 }
-
-' -------------------- PARALLEL START --------------------
-fork
-
-  partition "Exceptions Handling" {
-    if ("Commission mismatch?\nPlan mismatch?") then (YES)
-      :Review originals;
-      :Correct contracts;
-      :Resend for signatures;
-    else (NO)
-      :Proceed;
-    endif
-
-    if ("Premium calculation errors?\nDocument errors?") then (YES)
-      :Review setup;
-      :Review rates/worksheets sent to agent;
-      fork
-        :Update APS to correct;
-      fork again
-        :Update with Agent to correct;
-      end fork
-    else (NO)
-      :No further action;
-    endif
-  }
-
-fork again
-
-  partition "Platform Integration (Rate Maintenance)" {
-    :Annual / Tri-Annual Rate Changes;
-    :Notification from State;
-    :Create Rate Charts;
-    if ("Filing necessary?") then (YES)
-      :Send chart to Filing Team;
-    else (NO)
-      :Send notification to all affected Agents;\nUpdate APS – Update eWinLoan;
-    endif
-  }
-
-end fork
-' -------------------- PARALLEL END --------------------
 
 end
 @enduml
